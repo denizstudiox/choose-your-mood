@@ -5,12 +5,16 @@ ibrenin gösterdiği mod büyük bir kartla ekranda belirir.
 
 Kurulum gerekmez: harici kütüphane, build adımı veya internet bağlantısı yok.
 
+**Canlı deneme:** <https://denizstudiox.github.io/choose-your-mood/>
+
 ## Çalıştırma
 
 - **Kiosk (önerilen):** `start.bat` — Chrome'u tam ekran kiosk modunda açar. Çıkış: `Alt+F4`.
 - **Hızlı bakış:** `index.html` dosyasına çift tıklayın.
-- **Yerel sunucu ile:** klasörde `python -m http.server 5177` çalıştırıp
-  `http://localhost:5177` adresini açın.
+- **Telefon/tabletten (aynı Wi-Fi):** `serve.bat` — portu açar ve bağlanılacak
+  adresi ekrana yazar.
+- **Tek dosya:** `standalone.html` — her şey (CSS, JS, yüzler) içine gömülüdür.
+  Mail'le gönderilebilir, USB'den açılabilir.
 
 ## Kullanım
 
