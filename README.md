@@ -61,6 +61,40 @@ tablolarında listelidir. **Tarifi olmayan modlar** (örneğin ⚙ panelinden ek
 yeni bir mod) otomatik olarak `moods.js`'teki emoji karakterine düşer — yani hiçbir
 zaman boş görünmez.
 
+## Telif imzası
+
+[`signature.js`](signature.js) uygulamaya sahipliğini kanıtlayan gizli bir künye
+gömer. Ekranda görünen tek şey sol alt köşedeki çok soluk `© 2026 denizstudiox`
+yazısı — normal mesafeden fark edilmez.
+
+**Künyeyi açmak** (anlaşmazlık hâlinde göstermek için):
+
+- O soluk yazıya **2 saniye basılı tutun** (dokunmatikte de çalışır)
+- ya da klavyeden **`imza`** yazın
+- ya da tarayıcı konsoluna `TELIF.goster()` girin
+
+Açılan panel eser adını, sahibini, tarihi ve benzersiz **yapım kimliğini**
+gösterir; fotoğrafı çekilebilir.
+
+İzler dört ayrı yerde durur, biri silinse diğerleri kalır: köşedeki yazı,
+sayfa kaynağındaki `meta` etiketleri (`author`, `copyright`, `build-id`),
+`<html data-build="...">` özniteliği ve tarayıcı konsolu.
+
+Asıl kanıt değeri **yapım kimliğindedir** (`0576-45B3-CA3E-EC82`): bağımsız
+yazılmış bir uygulamada bu dizginin bulunmasının hiçbir sebebi yoktur.
+
+Sahip adını, e-postayı ve tarihi `signature.js`'in en üstündeki `SIGN`
+bloğundan değiştirin.
+
+**Kaldırmak** iki adım: `index.html` içindeki
+`<script src="signature.js"></script>` satırını ve `signature.js` dosyasını
+silin. Dosya kendi stilini ve DOM'unu kendisi kurduğu için başka hiçbir yere
+dokunmak gerekmez. Ardından `python build.py` ile tek dosyalık sürümü yenileyin.
+
+> Not: bu imza **bu yapımın** size ait olduğunu gösterir. Çarkın özgün
+> tasarımı (düzen, "CHOOSE your mood", mod listesi) başkasına aitse imza o
+> tasarım üzerinde hak doğurmaz.
+
 ## Dosyalar
 
 | Dosya | İçerik |
@@ -70,6 +104,9 @@ zaman boş görünmez.
 | `app.js` | Çarkın çizimi, çevirme fiziği, ses, ayarlar |
 | `moods.js` | **Mod listesi — düzenlemek isteyeceğiniz dosya** |
 | `faces.js` | Çizilmiş yüzler (parça kütüphanesi + mod→yüz tablosu) |
+| `signature.js` | **Telif künyesi — tek satırla kaldırılır** |
+| `build.py` | `standalone.html`'i üretir (`python build.py`) |
+| `standalone.html` | Üretilmiş tek dosyalık sürüm — elle düzenlemeyin |
 | `start.bat` | Chrome'u kiosk modunda açar |
 
 ## Notlar
