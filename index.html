@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#04101c">
+<title>Choose Your Mood</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="stage">
+  <div id="wheel-wrap">
+    <svg id="wheel-svg" viewBox="-292 -292 584 584" aria-hidden="true">
+      <g id="glow">
+        <g id="rotor"></g>
+
+        <!-- göbek: dönmez -->
+        <g id="hub">
+          <circle class="hub-face" r="80"></circle>
+          <text class="hub-t1" y="-10">CHOOSE</text>
+          <text class="hub-t2" y="14">-your mood-</text>
+          <path class="hub-smile" d="M -40 34 Q 0 62 40 34"></path>
+        </g>
+
+        <!-- ibre: sağda, saat 3 yönü -->
+        <g class="pointer">
+          <circle cx="278" cy="0" r="10"></circle>
+          <path d="M 268 0 L 250 0"></path>
+        </g>
+      </g>
+    </svg>
+
+    <div id="result">
+      <div id="result-emoji">🙂</div>
+      <div id="result-text">MUTLU</div>
+    </div>
+  </div>
+
+  <button id="spin">ÇEVİR</button>
+</div>
+
+<button class="tool" id="btn-sound" title="Ses">🔊</button>
+<button class="tool" id="btn-full"  title="Tam ekran">⛶</button>
+<button class="tool" id="btn-cfg"   title="Ayarlar">⚙</button>
+
+<div id="cfg">
+  <h2>Çark İçeriği</h2>
+  <p>Her satıra bir mod yazın: <b>YAZI | emoji</b> &nbsp;(emoji yazmazsanız 🙂 kullanılır).<br>
+     Kaydettiğinizde bu cihazda saklanır. “Varsayılana dön” ile <code>moods.js</code> listesine geri dönersiniz.</p>
+  <textarea id="cfg-text" spellcheck="false"></textarea>
+  <div id="cfg-msg"></div>
+  <div class="row">
+    <button id="cfg-save">Kaydet</button>
+    <button class="ghost" id="cfg-reset">Varsayılana dön</button>
+    <button class="ghost" id="cfg-close">Kapat</button>
+  </div>
+</div>
+
+<script src="moods.js"></script>
+<script src="faces.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

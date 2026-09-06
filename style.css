@@ -1,0 +1,214 @@
+/* ============ CHOOSE YOUR MOOD — kiosk ============ */
+:root{
+  --bg-1:#0d2436;
+  --bg-2:#04101c;
+  --neon:#7ee8f7;
+  --neon-soft:#bff3fb;
+  --hub:#e4e93f;
+  --hub-ink:#1b1b0c;
+  --btn:#c9ec4e;
+  --btn-ink:#12200a;
+  --pointer:#ff2d55;
+  --card-line:#66ff8a;
+  --ink:#eaf7ff;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{
+  width:100%;height:100%;overflow:hidden;
+  background:#000;color:var(--ink);
+  font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-user-select:none;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+
+#stage{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;gap:2vw;
+  padding:2vh 3vw;
+  background:
+    radial-gradient(ellipse 70% 80% at 42% 50%, var(--bg-1) 0%, var(--bg-2) 55%, #000 100%);
+}
+
+/* ---------- çark ---------- */
+#wheel-wrap{
+  position:relative;
+  height:96vh;width:96vh;max-width:66vw;max-height:66vw;
+  flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;
+}
+#wheel-svg{width:100%;height:100%;display:block;}
+
+#rotor{transform-origin:0 0;}
+
+.rim{fill:none;stroke:var(--neon);stroke-width:1.6;}
+.rim-thin{fill:none;stroke:var(--neon);stroke-width:.9;opacity:.85;}
+.spoke{stroke:var(--neon);stroke-width:.55;opacity:.55;}
+.label{
+  fill:var(--neon-soft);
+  font-size:9.4px;
+  font-weight:600;
+  letter-spacing:.55px;
+  dominant-baseline:middle;
+}
+.chip{fill:rgba(126,232,247,.10);stroke:var(--neon);stroke-width:.9;}
+.chip-e{font-size:15px;text-anchor:middle;dominant-baseline:central;}
+
+#glow{filter:drop-shadow(0 0 3px rgba(126,232,247,.75)) drop-shadow(0 0 9px rgba(126,232,247,.35));}
+
+/* göbek — dönmez */
+.hub-face{fill:var(--hub);stroke:#0a0a04;stroke-width:1.6;}
+.hub-t1{fill:var(--hub-ink);font-size:26px;text-anchor:middle;letter-spacing:1px;
+  font-family:"Comic Sans MS","Segoe Print","Bradley Hand",cursive;}
+.hub-t2{fill:var(--hub-ink);font-size:15px;text-anchor:middle;
+  font-family:"Comic Sans MS","Segoe Print","Bradley Hand",cursive;}
+.hub-smile{fill:none;stroke:var(--hub-ink);stroke-width:3;stroke-linecap:round;}
+
+/* ibre */
+.pointer{fill:none;stroke:var(--pointer);stroke-width:4;
+  filter:drop-shadow(0 0 6px rgba(255,45,85,.9));}
+
+/* çark, sonuç açıkken sönükleşir */
+#wheel-svg{transition:opacity .45s ease, filter .45s ease;}
+body.result-on #wheel-svg{opacity:.30;filter:saturate(.5) blur(1px);}
+
+/* ---------- ÇEVİR butonu ---------- */
+#spin{
+  flex:0 0 auto;
+  background:var(--btn);color:var(--btn-ink);
+  border:2px solid #eaffa8;border-radius:14px;
+  font-size:clamp(22px,3.4vh,44px);font-weight:700;letter-spacing:2px;
+  padding:.62em 1.25em;cursor:pointer;
+  box-shadow:0 0 22px rgba(201,236,78,.45), inset 0 0 12px rgba(255,255,255,.35);
+  transition:transform .12s ease, box-shadow .25s ease, opacity .25s ease;
+}
+#spin:active{transform:scale(.95);}
+#spin:disabled{opacity:.45;cursor:default;box-shadow:none;}
+
+/* ---------- sonuç kartı ---------- */
+#result{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%) scale(.72);
+  width:44%;aspect-ratio:1/1.06;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:7%;
+  background:rgba(6,22,34,.94);
+  border:3px solid var(--card-line);border-radius:9%;
+  box-shadow:0 0 26px rgba(102,255,138,.55), inset 0 0 34px rgba(102,255,138,.10);
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease, transform .45s cubic-bezier(.2,1.5,.4,1);
+}
+body.result-on #result{opacity:1;transform:translate(-50%,-50%) scale(1);}
+#result-emoji{font-size:min(17vh,14.5vw);line-height:1;
+  filter:drop-shadow(0 0 14px rgba(126,232,247,.5));}
+#result-text{
+  font-size:min(calc(6.2vh * var(--rt-k,1)), calc(5.4vw * var(--rt-k,1)));
+  font-weight:700;letter-spacing:2px;
+  text-align:center;padding:0 6%;line-height:1.1;color:#fff;
+  text-shadow:0 0 16px rgba(126,232,247,.55);
+}
+
+/* ---------- köşe araçları ---------- */
+.tool{
+  position:fixed;bottom:10px;
+  background:rgba(255,255,255,.05);color:rgba(234,247,255,.45);
+  border:1px solid rgba(234,247,255,.15);border-radius:8px;
+  font-size:16px;line-height:1;padding:8px 10px;cursor:pointer;
+  transition:color .2s,background .2s;
+}
+.tool:hover{color:#fff;background:rgba(255,255,255,.14);}
+#btn-sound{right:96px;}
+#btn-full{right:52px;}
+#btn-cfg{right:10px;}
+
+/* ---------- ayarlar ---------- */
+#cfg{
+  position:fixed;inset:0;z-index:20;display:none;
+  background:rgba(2,10,18,.93);
+  padding:4vh 6vw;overflow:auto;
+}
+#cfg.open{display:block;}
+#cfg h2{font-size:22px;margin-bottom:6px;color:var(--neon);}
+#cfg p{font-size:13px;opacity:.65;margin-bottom:14px;line-height:1.5;}
+#cfg textarea{
+  width:100%;height:52vh;resize:vertical;
+  background:#04121f;color:#dff4ff;
+  border:1px solid rgba(126,232,247,.35);border-radius:10px;
+  padding:12px;font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.6;
+}
+#cfg .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+#cfg button{
+  background:var(--btn);color:var(--btn-ink);border:0;border-radius:9px;
+  padding:11px 20px;font-size:15px;font-weight:700;cursor:pointer;
+}
+#cfg button.ghost{background:transparent;color:var(--ink);border:1px solid rgba(234,247,255,.3);}
+#cfg-msg{font-size:13px;color:#ff9aa9;margin-top:10px;min-height:18px;}
+
+/* ---------- dar / dikey ekran (telefon, tablet) ---------- */
+@media (max-aspect-ratio:1/1){
+  #stage{flex-direction:column;justify-content:center;gap:3vh;padding:2vh 2vw;}
+
+  /* kare kalsın ve hem genişliğe hem yüksekliğe sığsın:
+     height:auto bırakılınca SVG taşıp ekrandan kesiliyordu */
+  #wheel-wrap{
+    width:min(94vw, 56vh);
+    height:min(94vw, 56vh);
+    max-width:none;max-height:none;
+  }
+
+  #spin{font-size:clamp(22px,6vw,40px);padding:.6em 1.7em;letter-spacing:3px;}
+
+  /* kart ve içindekiler telefonda okunur boyda */
+  #result{width:76%;}
+  #result-emoji svg.face-svg{width:min(17vh,42vw);}
+  #result-text{font-size:min(calc(4.6vh * var(--rt-k,1)), calc(9.5vw * var(--rt-k,1)));}
+
+  /* köşe düğmeleri küçülsün, ekrandan taşmasın */
+  .tool{font-size:14px;padding:7px 9px;bottom:8px;}
+  #btn-sound{right:84px;} #btn-full{right:46px;} #btn-cfg{right:8px;}
+}
+
+/* boşta kalınca ÇEVİR butonu nabız gibi atsın */
+@keyframes attract{
+  0%,100%{transform:scale(1);    box-shadow:0 0 22px rgba(201,236,78,.45), inset 0 0 12px rgba(255,255,255,.35);}
+  50%    {transform:scale(1.06); box-shadow:0 0 40px rgba(201,236,78,.85), inset 0 0 18px rgba(255,255,255,.5);}
+}
+#spin.attract{animation:attract 1.6s ease-in-out infinite;}
+
+/* ---------- çizilmiş yüzler (faces.js) ---------- */
+:root{
+  --f-disc:#e9f9ff;   /* yüz diski */
+  --f-ink:#0d3f4d;    /* mürekkep */
+  --f-pupil:#1c7f99;  /* göz bebeği */
+  --f-acc:#ff3b5c;    /* kırmızı aksan */
+}
+.face .f-disc      {fill:var(--f-disc);stroke:var(--f-ink);stroke-width:3;}
+.face .f-ring      {fill:none;stroke:var(--f-ink);stroke-width:1.4;opacity:.45;}
+.face .f-ink       {fill:none;stroke:var(--f-ink);stroke-linecap:round;stroke-linejoin:round;}
+.face .f-fill      {fill:var(--f-ink);stroke:none;}
+.face .f-white-s   {fill:var(--f-disc);stroke:var(--f-ink);stroke-linecap:round;stroke-linejoin:round;}
+.face .f-white     {fill:var(--f-disc);stroke:none;}
+.face .f-white-line{fill:none;stroke:var(--f-disc);stroke-linecap:round;}
+.face .f-pupil     {fill:var(--f-pupil);stroke:none;}
+.face .f-acc       {fill:none;stroke:var(--f-acc);stroke-linecap:round;}
+.face .f-acc-f     {fill:var(--f-acc);stroke:none;}
+.face text         {text-anchor:middle;font-family:"Segoe UI",Arial,sans-serif;font-weight:800;}
+.face .f-glyph     {fill:var(--f-ink);font-size:20px;}
+.face .f-glyph-acc {fill:var(--f-acc);font-size:30px;}
+.face .f-glyph-sm  {fill:var(--f-ink);font-size:17px;}
+.face .f-glyph-xs  {fill:var(--f-ink);font-size:12px;}
+
+/* sonuç kartındaki büyük yüz */
+#result-emoji svg.face-svg{
+  width:min(25vh,21vw);height:auto;display:block;
+  filter:drop-shadow(0 0 14px rgba(126,232,247,.55));
+}
+.face .f-drop      {fill:#8fe4f5;stroke:none;}
+.face .f-glyph-sm  {fill:var(--f-disc);}
+.face .f-glyph-xs  {fill:var(--f-disc);}
+
+/* dönerken glow filtresini bırak: yüzlerle birlikte düğüm sayısı arttı,
+   zayıf kiosk kutularında her karede filtre hesaplamak takılmaya yol açıyor */
+#rotor{will-change:transform;}
+body.spinning #glow{filter:none;}
