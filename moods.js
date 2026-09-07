@@ -34,7 +34,6 @@ window.MOODS = [
   { t: "MİNNOŞ",         e: "🥺" },
   { t: "RÜKÜŞ",          e: "💅" },
   { t: "STRESLİ",        e: "😰" },
-  { t: "UYUŞUK",         e: "😪" },
 
   { t: "AGRESİF",        e: "😠" },
   { t: "BOMBA GİBİ",     e: "💣" },

@@ -5,11 +5,11 @@
 'use strict';
 
 /* ---------- geometri ---------- */
-const R_OUT   = 256;   // dış çember
-const R_CHIP  = 232;   // emoji rozetlerinin merkezi
-const R_BAND  = 209;   // rozet bandının iç çemberi
-const R_LBL   = 96;    // yazının başladığı yarıçap
-const R_HUB   = 84;    // göbeğin dış sınırı
+const R_OUT   = 266;   // dış çember
+const R_CHIP  = 241;   // emoji rozetlerinin merkezi
+const R_BAND  = 217;   // rozet bandının iç çemberi
+const R_LBL   = 99;    // yazının başladığı yarıçap
+const R_HUB   = 87;    // göbeğin dış sınırı
 const NS      = 'http://www.w3.org/2000/svg';
 
 /* ---------- durum ---------- */

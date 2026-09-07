@@ -25,8 +25,8 @@ html,body{
 
 #stage{
   position:fixed;inset:0;
-  display:flex;align-items:center;justify-content:center;gap:2vw;
-  padding:2vh 3vw;
+  display:flex;align-items:center;justify-content:center;gap:1.6vw;
+  padding:1vh 2.5vw;
   background:
     radial-gradient(ellipse 70% 80% at 42% 50%, var(--bg-1) 0%, var(--bg-2) 55%, #000 100%);
 }
@@ -34,7 +34,7 @@ html,body{
 /* ---------- çark ---------- */
 #wheel-wrap{
   position:relative;
-  height:96vh;width:96vh;max-width:66vw;max-height:66vw;
+  height:98vh;width:98vh;max-width:68vw;max-height:68vw;
   flex:0 0 auto;
   display:flex;align-items:center;justify-content:center;
 }
@@ -155,8 +155,8 @@ body.result-on #result{opacity:1;transform:translate(-50%,-50%) scale(1);}
   /* kare kalsın ve hem genişliğe hem yüksekliğe sığsın:
      height:auto bırakılınca SVG taşıp ekrandan kesiliyordu */
   #wheel-wrap{
-    width:min(94vw, 56vh);
-    height:min(94vw, 56vh);
+    width:min(96vw, 60vh);
+    height:min(96vw, 60vh);
     max-width:none;max-height:none;
   }
 
@@ -284,7 +284,7 @@ body.butonsuz #spin{display:none;}
 /* buton gizliyken: çark boşalan yeri kullansın, yönerge altına insin */
 body.butonsuz #stage{flex-direction:column;gap:1.6vh;}
 body.butonsuz #wheel-wrap{
-  width:min(88vh,94vw);height:min(88vh,94vw);max-width:none;max-height:none;
+  width:min(96vh,96vw);height:min(96vh,96vw);max-width:none;max-height:none;
 }
 
 /* renk kutucuğu: yerel görünüm yerine düz renk lekesi */
