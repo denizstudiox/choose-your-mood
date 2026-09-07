@@ -56,10 +56,11 @@ html,body{
   letter-spacing:.55px;
   dominant-baseline:middle;
 }
-.chip{fill:rgba(126,232,247,.10);stroke:var(--neon);stroke-width:.9;}
+.chip{fill:color-mix(in srgb, var(--neon) 10%, transparent);stroke:var(--neon);stroke-width:.9;}
 .chip-e{font-size:15px;text-anchor:middle;dominant-baseline:central;}
 
-#glow{filter:drop-shadow(0 0 3px rgba(126,232,247,.75)) drop-shadow(0 0 9px rgba(126,232,247,.35));}
+#glow{filter:drop-shadow(0 0 3px color-mix(in srgb, var(--neon) 75%, transparent))
+             drop-shadow(0 0 9px color-mix(in srgb, var(--neon) 35%, transparent));}
 
 /* göbek — dönmez */
 .hub-face{fill:var(--hub);stroke:#0a0a04;stroke-width:1.6;}
@@ -71,7 +72,7 @@ html,body{
 
 /* ibre */
 .pointer{fill:none;stroke:var(--pointer);stroke-width:4;
-  filter:drop-shadow(0 0 6px rgba(255,45,85,.9));}
+  filter:drop-shadow(0 0 6px color-mix(in srgb, var(--pointer) 90%, transparent));}
 
 /* çark, sonuç açıkken sönükleşir */
 #wheel-svg{transition:opacity .45s ease, filter .45s ease;}
@@ -84,7 +85,8 @@ body.result-on #wheel-svg{opacity:.30;filter:saturate(.5) blur(1px);}
   border:2px solid #eaffa8;border-radius:14px;
   font-size:clamp(22px,3.4vh,44px);font-weight:700;letter-spacing:2px;
   padding:.62em 1.25em;cursor:pointer;
-  box-shadow:0 0 22px rgba(201,236,78,.45), inset 0 0 12px rgba(255,255,255,.35);
+  box-shadow:0 0 22px color-mix(in srgb, var(--btn) 55%, transparent),
+              inset 0 0 12px rgba(255,255,255,.35);
   transition:transform .12s ease, box-shadow .25s ease, opacity .25s ease;
 }
 #spin:active{transform:scale(.95);}
@@ -99,7 +101,8 @@ body.result-on #wheel-svg{opacity:.30;filter:saturate(.5) blur(1px);}
   gap:7%;
   background:rgba(6,22,34,.94);
   border:3px solid var(--card-line);border-radius:9%;
-  box-shadow:0 0 26px rgba(102,255,138,.55), inset 0 0 34px rgba(102,255,138,.10);
+  box-shadow:0 0 26px color-mix(in srgb, var(--card-line) 60%, transparent),
+              inset 0 0 34px color-mix(in srgb, var(--card-line) 12%, transparent);
   opacity:0;pointer-events:none;
   transition:opacity .35s ease, transform .45s cubic-bezier(.2,1.5,.4,1);
 }
@@ -217,6 +220,81 @@ body.result-on #result{opacity:1;transform:translate(-50%,-50%) scale(1);}
 #rotor{will-change:transform;}
 body.spinning #glow{filter:none;}
 
+/* ---------- ayar paneli: sekmeler ---------- */
+#cfg{display:none;place-items:center;}
+#cfg.open{display:grid;}
+#cfg-box{
+  width:min(720px,92vw);max-height:92vh;overflow:auto;
+  background:#06192a;border:1px solid rgba(126,232,247,.28);border-radius:16px;
+  padding:22px 24px;box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+#cfg-box h2{margin-bottom:14px;}
+
+#cfg-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+#cfg-tabs button{
+  background:transparent;color:rgba(234,247,255,.6);
+  border:1px solid rgba(234,247,255,.18);border-radius:9px;
+  padding:8px 16px;font-size:14px;font-weight:600;cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s;
+}
+#cfg-tabs button:hover{color:#fff;}
+#cfg-tabs button.on{background:rgba(126,232,247,.14);color:var(--neon);
+  border-color:rgba(126,232,247,.5);}
+
+#cfg-box section{display:none;}
+#cfg-box section.on{display:block;}
+#cfg-box textarea{height:44vh;}
+
+/* renk ızgarası */
+#cfg-renkler{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;}
+.renk{display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.04);border-radius:10px;padding:8px 10px;}
+.renk input[type=color]{
+  inline-size:38px;block-size:30px;padding:0;flex:0 0 auto;cursor:pointer;
+  background:none;border:1px solid rgba(234,247,255,.25);border-radius:7px;
+}
+.renk span{font-size:13px;line-height:1.3;}
+
+/* davranış satırları */
+.satir{display:flex;align-items:center;gap:14px;margin:6px 0 2px;font-size:15px;}
+.satir input[type=range]{flex:1;min-width:140px;accent-color:var(--btn);}
+.satir.kutu{gap:10px;cursor:pointer;}
+.satir input[type=checkbox]{inline-size:19px;block-size:19px;accent-color:var(--btn);cursor:pointer;}
+#cfg-sure-deger{min-width:74px;text-align:right;font-weight:700;color:var(--neon);
+  font-variant-numeric:tabular-nums;}
+.ipucu{font-size:12px;opacity:.55;margin:0 0 16px;line-height:1.5;}
+
+#cfg-box .row{margin-top:16px;}
+#cfg-box section .row{margin-top:12px;}
+
+/* ---------- buton gizliyken dokunma yönergesi ---------- */
+#hint{
+  flex:0 0 auto;color:var(--neon);opacity:.55;
+  font-size:clamp(14px,2vh,20px);letter-spacing:2px;text-transform:uppercase;
+  animation:hint-nabiz 2.6s ease-in-out infinite;
+}
+#hint[hidden]{display:none;}
+body.result-on #hint,body.spinning #hint{visibility:hidden;}
+@keyframes hint-nabiz{0%,100%{opacity:.32}50%{opacity:.72}}
+
+/* butonu gizle seçildiğinde */
+body.butonsuz #spin{display:none;}
+
+@media (prefers-reduced-motion:reduce){
+  #hint{animation:none;opacity:.55;}
+  #spin.attract{animation:none;}
+}
+
+/* buton gizliyken: çark boşalan yeri kullansın, yönerge altına insin */
+body.butonsuz #stage{flex-direction:column;gap:1.6vh;}
+body.butonsuz #wheel-wrap{
+  width:min(88vh,94vw);height:min(88vh,94vw);max-width:none;max-height:none;
+}
+
+/* renk kutucuğu: yerel görünüm yerine düz renk lekesi */
+.renk input[type=color]::-webkit-color-swatch-wrapper{padding:2px;}
+.renk input[type=color]::-webkit-color-swatch{border:none;border-radius:5px;}
+
 </style>
 
 <div id="stage">
@@ -248,6 +326,7 @@ body.spinning #glow{filter:none;}
   </div>
 
   <button id="spin">ÇEVİR</button>
+  <div id="hint" hidden>Çevirmek için ekrana dokun</div>
 </div>
 
 <button class="tool" id="btn-sound" title="Ses">🔊</button>
@@ -255,16 +334,58 @@ body.spinning #glow{filter:none;}
 <button class="tool" id="btn-cfg"   title="Ayarlar">⚙</button>
 
 <div id="cfg">
-  <h2>Çark İçeriği</h2>
-  <p>Her satıra bir mod yazın: <b>YAZI | emoji</b> &nbsp;(emoji yazmazsanız 🙂 kullanılır).<br>
-     Kaydettiğinizde bu cihazda saklanır. “Varsayılana dön” ile <code>moods.js</code> listesine geri dönersiniz.</p>
-  <textarea id="cfg-text" spellcheck="false"></textarea>
+ <div id="cfg-box">
+  <h2>Ayarlar</h2>
+
+  <nav id="cfg-tabs">
+    <button type="button" class="on" data-sek="modlar">Modlar</button>
+    <button type="button" data-sek="renkler">Renkler</button>
+    <button type="button" data-sek="davranis">Davranış</button>
+  </nav>
+
+  <section data-sek="modlar" class="on">
+    <p>Her satıra bir mod: <b>YAZI | emoji</b> &nbsp;(emoji yazmazsanız 🙂 kullanılır).
+       Çizilmiş yüzü olmayan modlar emojiye düşer.</p>
+    <textarea id="cfg-text" spellcheck="false"></textarea>
+    <div class="row">
+      <button type="button" id="cfg-save">Modları kaydet</button>
+      <button type="button" class="ghost" id="cfg-reset">Varsayılan listeye dön</button>
+    </div>
+  </section>
+
+  <section data-sek="renkler">
+    <p>Değişiklikler anında uygulanır ve bu cihazda saklanır.</p>
+    <div id="cfg-renkler"></div>
+    <div class="row">
+      <button type="button" class="ghost" id="renk-sifirla">Renkleri varsayılana döndür</button>
+    </div>
+  </section>
+
+  <section data-sek="davranis">
+    <label class="satir">
+      <span>Sonuç ekranda kalsın</span>
+      <input type="range" id="cfg-sure" min="0" max="30" step="1">
+      <output id="cfg-sure-deger"></output>
+    </label>
+    <p class="ipucu">0 = kendiliğinden kapanmasın. Kart kapanınca çark yeniden hazır olur.</p>
+
+    <label class="satir kutu">
+      <input type="checkbox" id="cfg-buton">
+      <span>ÇEVİR butonunu göster</span>
+    </label>
+    <p class="ipucu">Kapalıyken çarka dokunmak çevirir; ekranda küçük bir yönerge belirir.</p>
+
+    <label class="satir kutu">
+      <input type="checkbox" id="cfg-ses">
+      <span>Ses</span>
+    </label>
+  </section>
+
   <div id="cfg-msg"></div>
   <div class="row">
-    <button id="cfg-save">Kaydet</button>
-    <button class="ghost" id="cfg-reset">Varsayılana dön</button>
-    <button class="ghost" id="cfg-close">Kapat</button>
+    <button type="button" class="ghost" id="cfg-close">Kapat</button>
   </div>
+ </div>
 </div>
 
 <script>
@@ -666,6 +787,48 @@ const NS      = 'http://www.w3.org/2000/svg';
 /* ---------- durum ---------- */
 const LS_MOODS = 'mood-wheel:moods';
 const LS_SOUND = 'mood-wheel:sound';
+const LS_AYAR  = 'mood-wheel:ayarlar';
+
+/* Renk ayarları — CSS değişkenlerine bire bir karşılık gelir.
+   Buradaki 'v' değerleri style.css'teki varsayılanlarla aynı olmalı. */
+const RENKLER = [
+  { k:'--bg-1',      ad:'Arka plan · merkez', v:'#0d2436' },
+  { k:'--bg-2',      ad:'Arka plan · kenar',  v:'#04101c' },
+  { k:'--neon',      ad:'Çark neonu',         v:'#7ee8f7' },
+  { k:'--neon-soft', ad:'Çark yazısı',        v:'#bff3fb' },
+  { k:'--hub',       ad:'Göbek',              v:'#e4e93f' },
+  { k:'--pointer',   ad:'İbre',               v:'#ff2d55' },
+  { k:'--btn',       ad:'ÇEVİR butonu',       v:'#c9ec4e' },
+  { k:'--card-line', ad:'Sonuç çerçevesi',    v:'#66ff8a' },
+  { k:'--f-disc',    ad:'Yüz zemini',         v:'#e9f9ff' },
+  { k:'--f-ink',     ad:'Yüz çizgisi',        v:'#0d3f4d' },
+  { k:'--f-pupil',   ad:'Göz bebeği',         v:'#1c7f99' },
+  { k:'--f-acc',     ad:'Yüz vurgusu',        v:'#ff3b5c' }
+];
+
+const AYAR_VARSAYILAN = { kartSaniye: 8, butonGoster: true, renkler: {} };
+let ayar = Object.assign({}, AYAR_VARSAYILAN);
+
+function ayarYukle(){
+  try {
+    const ham = localStorage.getItem(LS_AYAR);
+    if (ham) ayar = Object.assign({}, AYAR_VARSAYILAN, JSON.parse(ham));
+  } catch(_){ ayar = Object.assign({}, AYAR_VARSAYILAN); }
+  if (!ayar.renkler || typeof ayar.renkler !== 'object') ayar.renkler = {};
+}
+function ayarKaydet(){
+  try { localStorage.setItem(LS_AYAR, JSON.stringify(ayar)); } catch(_){}
+}
+function ayarUygula(){
+  const kok = document.documentElement;
+  RENKLER.forEach(r => {
+    const secilen = ayar.renkler[r.k];
+    if (secilen) kok.style.setProperty(r.k, secilen);
+    else kok.style.removeProperty(r.k);
+  });
+  document.body.classList.toggle('butonsuz', !ayar.butonGoster);
+  $('hint').hidden = ayar.butonGoster;
+}
 
 let moods    = [];
 let rotation = 0;       // derece
@@ -791,10 +954,8 @@ function fanfare(){
 function spin(){
   if (spinning) return;
 
-  if (showing){                       // açık kartı önce kapat
-    showing = false;
-    document.body.classList.remove('result-on');
-  }
+  if (showing) kartiGizle();          // açık kartı önce kapat
+  clearTimeout(kartSayaci);
 
   const n = moods.length;
   if (n < 2) return;
@@ -852,6 +1013,13 @@ function spin(){
   requestAnimationFrame(frame);
 }
 
+let kartSayaci = null;
+function kartiGizle(){
+  clearTimeout(kartSayaci); kartSayaci = null;
+  showing = false;
+  document.body.classList.remove('result-on');
+}
+
 function reveal(i){
   const txt = moods[i].t;
   const el2 = $('result-text');
@@ -871,6 +1039,10 @@ function reveal(i){
   fanfare();
   spinBtn.disabled = false;
   resetIdle();
+
+  // ayarlanan süre dolunca kart kendiliğinden kapansın (0 = kapalı)
+  clearTimeout(kartSayaci);
+  if (ayar.kartSaniye > 0) kartSayaci = setTimeout(kartiGizle, ayar.kartSaniye * 1000);
 }
 
 /* ---------- boşta kalınca butonu nabız gibi attır ---------- */
@@ -890,8 +1062,56 @@ const toList = txt => txt.split('\n').map(line => {
     return { t: (parts[0] || '').trim(), e: (parts[1] || '').trim() || '🙂' };
   }).filter(m => m.t);
 
+function renkleriKur(){
+  const kap = $('cfg-renkler');
+  if (kap.childElementCount) return;              // bir kez kurulur
+  RENKLER.forEach(r => {
+    const et = document.createElement('label');
+    et.className = 'renk';
+    const gir = document.createElement('input');
+    gir.type = 'color';
+    gir.dataset.degisken = r.k;
+    const ad = document.createElement('span');
+    ad.textContent = r.ad;
+    et.appendChild(gir); et.appendChild(ad);
+    kap.appendChild(et);
+
+    gir.addEventListener('input', () => {
+      ayar.renkler[r.k] = gir.value;
+      document.documentElement.style.setProperty(r.k, gir.value);
+      ayarKaydet();
+    });
+  });
+}
+
+function renkleriGoster(){
+  $('cfg-renkler').querySelectorAll('input[type=color]').forEach(gir => {
+    const k = gir.dataset.degisken;
+    const varsayilan = (RENKLER.find(r => r.k === k) || {}).v || '#000000';
+    gir.value = ayar.renkler[k] || varsayilan;
+  });
+}
+
+function sureGoster(){
+  const n = +$('cfg-sure').value;
+  $('cfg-sure-deger').textContent = n === 0 ? 'kapalı' : n + ' sn';
+}
+
+function sekmeSec(ad){
+  $('cfg-tabs').querySelectorAll('button').forEach(b =>
+    b.classList.toggle('on', b.dataset.sek === ad));
+  $('cfg-box').querySelectorAll('section').forEach(sec =>
+    sec.classList.toggle('on', sec.dataset.sek === ad));
+}
+
 function openCfg(){
-  $('cfg-text').value = toText(moods);
+  renkleriKur();
+  renkleriGoster();
+  $('cfg-text').value    = toText(moods);
+  $('cfg-sure').value    = ayar.kartSaniye;
+  $('cfg-buton').checked = ayar.butonGoster;
+  $('cfg-ses').checked   = soundOn;
+  sureGoster();
   $('cfg-msg').textContent = '';
   $('cfg').classList.add('open');
 }
@@ -901,6 +1121,38 @@ const closeCfg = () => $('cfg').classList.remove('open');
 spinBtn.addEventListener('click', ev => { ev.stopPropagation(); audio(); spin(); });
 
 $('btn-cfg').addEventListener('click', openCfg);
+
+$('cfg-tabs').addEventListener('click', ev => {
+  const b = ev.target.closest('button[data-sek]');
+  if (b) sekmeSec(b.dataset.sek);
+});
+
+$('cfg-sure').addEventListener('input', () => {
+  ayar.kartSaniye = +$('cfg-sure').value;
+  sureGoster();
+  ayarKaydet();
+});
+
+$('cfg-buton').addEventListener('change', () => {
+  ayar.butonGoster = $('cfg-buton').checked;
+  ayarUygula();
+  ayarKaydet();
+});
+
+$('cfg-ses').addEventListener('change', () => {
+  soundOn = $('cfg-ses').checked;
+  localStorage.setItem(LS_SOUND, soundOn ? '1' : '0');
+  $('btn-sound').textContent = soundOn ? '🔊' : '🔇';
+  if (soundOn){ audio(); tick(); }
+});
+
+$('renk-sifirla').addEventListener('click', () => {
+  ayar.renkler = {};
+  ayarUygula();
+  renkleriGoster();
+  ayarKaydet();
+  $('cfg-msg').textContent = 'Renkler varsayılana döndü.';
+});
 $('cfg-close').addEventListener('click', closeCfg);
 $('cfg-save').addEventListener('click', () => {
   const list = toList($('cfg-text').value);
@@ -921,6 +1173,7 @@ $('btn-sound').addEventListener('click', ev => {
   soundOn = !soundOn;
   localStorage.setItem(LS_SOUND, soundOn ? '1' : '0');
   ev.currentTarget.textContent = soundOn ? '🔊' : '🔇';
+  $('cfg-ses').checked = soundOn;          // panelle aynı kalsın
   if (soundOn){ audio(); tick(); }
 });
 
@@ -938,11 +1191,14 @@ document.addEventListener('keydown', ev => {
 
 // çarka veya sonuç kartına dokununca da çevirsin
 $('wheel-wrap').addEventListener('click', () => { audio(); spin(); });
+$('hint').addEventListener('click', () => { audio(); spin(); });
 
 ['pointerdown','keydown'].forEach(t => document.addEventListener(t, resetIdle, true));
 window.addEventListener('resize', resetIdle);
 
 /* ---------- başlat ---------- */
+ayarYukle();
+ayarUygula();
 moods = loadMoods();
 $('btn-sound').textContent = soundOn ? '🔊' : '🔇';
 buildWheel();

@@ -23,10 +23,30 @@ Kurulum gerekmez: harici kütüphane, build adımı veya internet bağlantısı 
 | Çevir | **ÇEVİR** butonu, çarka dokunma, ya da `Boşluk` / `Enter` |
 | Tam ekran | Sağ alttaki ⛶ ya da `F` |
 | Ses aç/kapa | Sağ alttaki 🔊 (tercih cihazda saklanır) |
-| Listeyi düzenle | Sağ alttaki ⚙ |
+| Ayarlar | Sağ alttaki ⚙ |
 
-Sonuç kartı açıkken tekrar **ÇEVİR**'e basmak kartı kapatıp yeniden çevirir.
-45 saniye dokunulmazsa buton dikkat çekmek için hafifçe nabız gibi atar.
+Sonuç kartı ayarlanan süre dolunca kendiliğinden kapanır; kapanmadan tekrar
+çevirirseniz de kapanır. 45 saniye dokunulmazsa buton dikkat çekmek için
+hafifçe nabız gibi atar.
+
+## Ayarlar (⚙)
+
+Üç sekme var; hepsi bu cihazın tarayıcısında saklanır.
+
+**Modlar** — her satıra bir mod: `YAZI | emoji`. **Modları kaydet** ile uygulanır,
+**Varsayılan listeye dön** ile `moods.js`'e geri dönülür.
+
+**Renkler** — 12 renk: arka plan (merkez/kenar), çark neonu, çark yazısı, göbek,
+ibre, ÇEVİR butonu, sonuç çerçevesi, yüz zemini, yüz çizgisi, göz bebeği,
+yüz vurgusu. Değişiklik anında uygulanır; neon parlaması da seçilen rengi izler.
+**Renkleri varsayılana döndür** hepsini geri alır.
+
+**Davranış**
+- *Sonuç ekranda kalsın* — 0–30 saniye. `0` = kendiliğinden kapanmasın.
+- *ÇEVİR butonunu göster* — kapatınca buton kaybolur, çark boşalan alanı
+  doldurur ve altında "çevirmek için ekrana dokun" yönergesi belirir.
+  Çarka (ya da yönergeye) dokunmak çevirir.
+- *Ses* — köşedeki 🔊 ile aynı ayar.
 
 ## Mod listesini değiştirme
 

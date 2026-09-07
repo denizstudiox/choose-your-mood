@@ -15,6 +15,48 @@ const NS      = 'http://www.w3.org/2000/svg';
 /* ---------- durum ---------- */
 const LS_MOODS = 'mood-wheel:moods';
 const LS_SOUND = 'mood-wheel:sound';
+const LS_AYAR  = 'mood-wheel:ayarlar';
+
+/* Renk ayarları — CSS değişkenlerine bire bir karşılık gelir.
+   Buradaki 'v' değerleri style.css'teki varsayılanlarla aynı olmalı. */
+const RENKLER = [
+  { k:'--bg-1',      ad:'Arka plan · merkez', v:'#0d2436' },
+  { k:'--bg-2',      ad:'Arka plan · kenar',  v:'#04101c' },
+  { k:'--neon',      ad:'Çark neonu',         v:'#7ee8f7' },
+  { k:'--neon-soft', ad:'Çark yazısı',        v:'#bff3fb' },
+  { k:'--hub',       ad:'Göbek',              v:'#e4e93f' },
+  { k:'--pointer',   ad:'İbre',               v:'#ff2d55' },
+  { k:'--btn',       ad:'ÇEVİR butonu',       v:'#c9ec4e' },
+  { k:'--card-line', ad:'Sonuç çerçevesi',    v:'#66ff8a' },
+  { k:'--f-disc',    ad:'Yüz zemini',         v:'#e9f9ff' },
+  { k:'--f-ink',     ad:'Yüz çizgisi',        v:'#0d3f4d' },
+  { k:'--f-pupil',   ad:'Göz bebeği',         v:'#1c7f99' },
+  { k:'--f-acc',     ad:'Yüz vurgusu',        v:'#ff3b5c' }
+];
+
+const AYAR_VARSAYILAN = { kartSaniye: 8, butonGoster: true, renkler: {} };
+let ayar = Object.assign({}, AYAR_VARSAYILAN);
+
+function ayarYukle(){
+  try {
+    const ham = localStorage.getItem(LS_AYAR);
+    if (ham) ayar = Object.assign({}, AYAR_VARSAYILAN, JSON.parse(ham));
+  } catch(_){ ayar = Object.assign({}, AYAR_VARSAYILAN); }
+  if (!ayar.renkler || typeof ayar.renkler !== 'object') ayar.renkler = {};
+}
+function ayarKaydet(){
+  try { localStorage.setItem(LS_AYAR, JSON.stringify(ayar)); } catch(_){}
+}
+function ayarUygula(){
+  const kok = document.documentElement;
+  RENKLER.forEach(r => {
+    const secilen = ayar.renkler[r.k];
+    if (secilen) kok.style.setProperty(r.k, secilen);
+    else kok.style.removeProperty(r.k);
+  });
+  document.body.classList.toggle('butonsuz', !ayar.butonGoster);
+  $('hint').hidden = ayar.butonGoster;
+}
 
 let moods    = [];
 let rotation = 0;       // derece
@@ -140,10 +182,8 @@ function fanfare(){
 function spin(){
   if (spinning) return;
 
-  if (showing){                       // açık kartı önce kapat
-    showing = false;
-    document.body.classList.remove('result-on');
-  }
+  if (showing) kartiGizle();          // açık kartı önce kapat
+  clearTimeout(kartSayaci);
 
   const n = moods.length;
   if (n < 2) return;
@@ -201,6 +241,13 @@ function spin(){
   requestAnimationFrame(frame);
 }
 
+let kartSayaci = null;
+function kartiGizle(){
+  clearTimeout(kartSayaci); kartSayaci = null;
+  showing = false;
+  document.body.classList.remove('result-on');
+}
+
 function reveal(i){
   const txt = moods[i].t;
   const el2 = $('result-text');
@@ -220,6 +267,10 @@ function reveal(i){
   fanfare();
   spinBtn.disabled = false;
   resetIdle();
+
+  // ayarlanan süre dolunca kart kendiliğinden kapansın (0 = kapalı)
+  clearTimeout(kartSayaci);
+  if (ayar.kartSaniye > 0) kartSayaci = setTimeout(kartiGizle, ayar.kartSaniye * 1000);
 }
 
 /* ---------- boşta kalınca butonu nabız gibi attır ---------- */
@@ -239,8 +290,56 @@ const toList = txt => txt.split('\n').map(line => {
     return { t: (parts[0] || '').trim(), e: (parts[1] || '').trim() || '🙂' };
   }).filter(m => m.t);
 
+function renkleriKur(){
+  const kap = $('cfg-renkler');
+  if (kap.childElementCount) return;              // bir kez kurulur
+  RENKLER.forEach(r => {
+    const et = document.createElement('label');
+    et.className = 'renk';
+    const gir = document.createElement('input');
+    gir.type = 'color';
+    gir.dataset.degisken = r.k;
+    const ad = document.createElement('span');
+    ad.textContent = r.ad;
+    et.appendChild(gir); et.appendChild(ad);
+    kap.appendChild(et);
+
+    gir.addEventListener('input', () => {
+      ayar.renkler[r.k] = gir.value;
+      document.documentElement.style.setProperty(r.k, gir.value);
+      ayarKaydet();
+    });
+  });
+}
+
+function renkleriGoster(){
+  $('cfg-renkler').querySelectorAll('input[type=color]').forEach(gir => {
+    const k = gir.dataset.degisken;
+    const varsayilan = (RENKLER.find(r => r.k === k) || {}).v || '#000000';
+    gir.value = ayar.renkler[k] || varsayilan;
+  });
+}
+
+function sureGoster(){
+  const n = +$('cfg-sure').value;
+  $('cfg-sure-deger').textContent = n === 0 ? 'kapalı' : n + ' sn';
+}
+
+function sekmeSec(ad){
+  $('cfg-tabs').querySelectorAll('button').forEach(b =>
+    b.classList.toggle('on', b.dataset.sek === ad));
+  $('cfg-box').querySelectorAll('section').forEach(sec =>
+    sec.classList.toggle('on', sec.dataset.sek === ad));
+}
+
 function openCfg(){
-  $('cfg-text').value = toText(moods);
+  renkleriKur();
+  renkleriGoster();
+  $('cfg-text').value    = toText(moods);
+  $('cfg-sure').value    = ayar.kartSaniye;
+  $('cfg-buton').checked = ayar.butonGoster;
+  $('cfg-ses').checked   = soundOn;
+  sureGoster();
   $('cfg-msg').textContent = '';
   $('cfg').classList.add('open');
 }
@@ -250,6 +349,38 @@ const closeCfg = () => $('cfg').classList.remove('open');
 spinBtn.addEventListener('click', ev => { ev.stopPropagation(); audio(); spin(); });
 
 $('btn-cfg').addEventListener('click', openCfg);
+
+$('cfg-tabs').addEventListener('click', ev => {
+  const b = ev.target.closest('button[data-sek]');
+  if (b) sekmeSec(b.dataset.sek);
+});
+
+$('cfg-sure').addEventListener('input', () => {
+  ayar.kartSaniye = +$('cfg-sure').value;
+  sureGoster();
+  ayarKaydet();
+});
+
+$('cfg-buton').addEventListener('change', () => {
+  ayar.butonGoster = $('cfg-buton').checked;
+  ayarUygula();
+  ayarKaydet();
+});
+
+$('cfg-ses').addEventListener('change', () => {
+  soundOn = $('cfg-ses').checked;
+  localStorage.setItem(LS_SOUND, soundOn ? '1' : '0');
+  $('btn-sound').textContent = soundOn ? '🔊' : '🔇';
+  if (soundOn){ audio(); tick(); }
+});
+
+$('renk-sifirla').addEventListener('click', () => {
+  ayar.renkler = {};
+  ayarUygula();
+  renkleriGoster();
+  ayarKaydet();
+  $('cfg-msg').textContent = 'Renkler varsayılana döndü.';
+});
 $('cfg-close').addEventListener('click', closeCfg);
 $('cfg-save').addEventListener('click', () => {
   const list = toList($('cfg-text').value);
@@ -270,6 +401,7 @@ $('btn-sound').addEventListener('click', ev => {
   soundOn = !soundOn;
   localStorage.setItem(LS_SOUND, soundOn ? '1' : '0');
   ev.currentTarget.textContent = soundOn ? '🔊' : '🔇';
+  $('cfg-ses').checked = soundOn;          // panelle aynı kalsın
   if (soundOn){ audio(); tick(); }
 });
 
@@ -287,11 +419,14 @@ document.addEventListener('keydown', ev => {
 
 // çarka veya sonuç kartına dokununca da çevirsin
 $('wheel-wrap').addEventListener('click', () => { audio(); spin(); });
+$('hint').addEventListener('click', () => { audio(); spin(); });
 
 ['pointerdown','keydown'].forEach(t => document.addEventListener(t, resetIdle, true));
 window.addEventListener('resize', resetIdle);
 
 /* ---------- başlat ---------- */
+ayarYukle();
+ayarUygula();
 moods = loadMoods();
 $('btn-sound').textContent = soundOn ? '🔊' : '🔇';
 buildWheel();

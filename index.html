@@ -38,6 +38,7 @@
   </div>
 
   <button id="spin">ÇEVİR</button>
+  <div id="hint" hidden>Çevirmek için ekrana dokun</div>
 </div>
 
 <button class="tool" id="btn-sound" title="Ses">🔊</button>
@@ -45,16 +46,58 @@
 <button class="tool" id="btn-cfg"   title="Ayarlar">⚙</button>
 
 <div id="cfg">
-  <h2>Çark İçeriği</h2>
-  <p>Her satıra bir mod yazın: <b>YAZI | emoji</b> &nbsp;(emoji yazmazsanız 🙂 kullanılır).<br>
-     Kaydettiğinizde bu cihazda saklanır. “Varsayılana dön” ile <code>moods.js</code> listesine geri dönersiniz.</p>
-  <textarea id="cfg-text" spellcheck="false"></textarea>
+ <div id="cfg-box">
+  <h2>Ayarlar</h2>
+
+  <nav id="cfg-tabs">
+    <button type="button" class="on" data-sek="modlar">Modlar</button>
+    <button type="button" data-sek="renkler">Renkler</button>
+    <button type="button" data-sek="davranis">Davranış</button>
+  </nav>
+
+  <section data-sek="modlar" class="on">
+    <p>Her satıra bir mod: <b>YAZI | emoji</b> &nbsp;(emoji yazmazsanız 🙂 kullanılır).
+       Çizilmiş yüzü olmayan modlar emojiye düşer.</p>
+    <textarea id="cfg-text" spellcheck="false"></textarea>
+    <div class="row">
+      <button type="button" id="cfg-save">Modları kaydet</button>
+      <button type="button" class="ghost" id="cfg-reset">Varsayılan listeye dön</button>
+    </div>
+  </section>
+
+  <section data-sek="renkler">
+    <p>Değişiklikler anında uygulanır ve bu cihazda saklanır.</p>
+    <div id="cfg-renkler"></div>
+    <div class="row">
+      <button type="button" class="ghost" id="renk-sifirla">Renkleri varsayılana döndür</button>
+    </div>
+  </section>
+
+  <section data-sek="davranis">
+    <label class="satir">
+      <span>Sonuç ekranda kalsın</span>
+      <input type="range" id="cfg-sure" min="0" max="30" step="1">
+      <output id="cfg-sure-deger"></output>
+    </label>
+    <p class="ipucu">0 = kendiliğinden kapanmasın. Kart kapanınca çark yeniden hazır olur.</p>
+
+    <label class="satir kutu">
+      <input type="checkbox" id="cfg-buton">
+      <span>ÇEVİR butonunu göster</span>
+    </label>
+    <p class="ipucu">Kapalıyken çarka dokunmak çevirir; ekranda küçük bir yönerge belirir.</p>
+
+    <label class="satir kutu">
+      <input type="checkbox" id="cfg-ses">
+      <span>Ses</span>
+    </label>
+  </section>
+
   <div id="cfg-msg"></div>
   <div class="row">
-    <button id="cfg-save">Kaydet</button>
-    <button class="ghost" id="cfg-reset">Varsayılana dön</button>
-    <button class="ghost" id="cfg-close">Kapat</button>
+    <button type="button" class="ghost" id="cfg-close">Kapat</button>
   </div>
+ </div>
 </div>
 
 <script src="moods.js"></script>
