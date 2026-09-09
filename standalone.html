@@ -198,6 +198,7 @@ body.result-on #result{opacity:1;transform:translate(-50%,-50%) scale(1);}
 .face .f-white     {fill:var(--f-disc);stroke:none;}
 .face .f-white-line{fill:none;stroke:var(--f-disc);stroke-linecap:round;}
 .face .f-pupil     {fill:var(--f-pupil);stroke:none;}
+.face .f-pupil-s   {fill:none;stroke:var(--f-pupil);stroke-linecap:round;stroke-linejoin:round;}
 .face .f-acc       {fill:none;stroke:var(--f-acc);stroke-linecap:round;}
 .face .f-acc-f     {fill:var(--f-acc);stroke:none;}
 .face text         {text-anchor:middle;font-family:"Segoe UI",Arial,sans-serif;font-weight:800;}
@@ -405,58 +406,67 @@ body.butonsuz #wheel-wrap{
    Her satır: { t: "YAZI", e: "emoji" }
    Kaç tane olursa olsun çark otomatik olarak dilimleri böler.
    (Uygulama içindeki ayarlar panelinden de düzenlenebilir.)
+
+   Liste kafedeki mod panosuyla birebir aynıdır — 48 mod, alfabetik.
+   Emoji yalnızca yedektir: çizilmiş yüzü olan modlarda (faces.js)
+   ekranda emoji değil, çizim görünür.
 ----------------------------------------------------------------*/
 window.MOODS = [
-  { t: "AŞK",            e: "😍" },
-  { t: "ÇAPKIN",         e: "😏" },
-  { t: "DENGESİZ",       e: "🎢" },
-  { t: "HANGOVER",       e: "🥴" },
-  { t: "HEYECANLI",      e: "🤩" },
-  { t: "KARARSIZ",       e: "😕" },
-  { t: "PAMUK GİBİ",     e: "🥰" },
-  { t: "SICAKKANLI",     e: "🤗" },
-  { t: "UMUTLU",         e: "🌈" },
-  { t: "YIKIK",          e: "😩" },
+  { t: "AGRESİF",                e: "😠" },
+  { t: "AĞLAK",                  e: "😭" },
+  { t: "AŞIK",                   e: "😍" },
+  { t: "BİR ŞEY EKSİK",          e: "🧐" },
+  { t: "BOK GİBİ",               e: "💩" },
+  { t: "BOMBA GİBİ",             e: "💣" },
 
-  { t: "BİR ŞEY EKSİK",  e: "🧐" },
-  { t: "ÇEKİCİ",         e: "💋" },
-  { t: "DÜŞÜNCELİ",      e: "🤔" },
-  { t: "HARİKA",         e: "👍" },
-  { t: "HUZURLU",        e: "😌" },
-  { t: "LOSER",          e: "😞" },
-  { t: "PARAGÖZ",        e: "🤑" },
-  { t: "STANDART",       e: "😐" },
-  { t: "UYKUSUZ",        e: "😫" },
-  { t: "YORGUN",         e: "😮‍💨" },
+  { t: "ÇALIŞKAN",               e: "💪" },
+  { t: "ÇAPKIN",                 e: "😏" },
+  { t: "ÇEKİCİ",                 e: "💋" },
+  { t: "ÇILGIN",                 e: "🤯" },
+  { t: "DARMADAĞIN",             e: "😵" },
+  { t: "DELİ GİBİ",              e: "🤪" },
 
-  { t: "BOK GİBİ",       e: "💩" },
-  { t: "ÇILGIN",         e: "🤯" },
-  { t: "EH İŞTE",        e: "😑" },
-  { t: "HASTA",          e: "🤒" },
-  { t: "MİNNOŞ",         e: "🥺" },
-  { t: "RÜKÜŞ",          e: "💅" },
-  { t: "STRESLİ",        e: "😰" },
+  { t: "DENGESİZ",               e: "🎢" },
+  { t: "DÜŞÜNCELİ",              e: "🤔" },
+  { t: "EH İŞTE",                e: "😑" },
+  { t: "ENERJİK",                e: "⚡" },
+  { t: "FARKETMEZ",              e: "🤷" },
+  { t: "HANGOVER",               e: "🥴" },
 
-  { t: "AGRESİF",        e: "😠" },
-  { t: "BOMBA GİBİ",     e: "💣" },
-  { t: "DARMADAĞIN",     e: "😵" },
-  { t: "ENERJİK",        e: "⚡" },
-  { t: "HAVALI",         e: "😎" },
-  { t: "İNCİNMİŞ",       e: "💔" },
-  { t: "MUTLU",          e: "😀" },
-  { t: "ŞANSLI",         e: "🍀" },
-  { t: "ŞAPŞİK",         e: "😜" },
+  { t: "HARİKA",                 e: "👍" },
+  { t: "HASTA",                  e: "🤒" },
+  { t: "HAVALI",                 e: "😎" },
+  { t: "HAYALPEREST",            e: "💭" },
+  { t: "HEYECANLI",              e: "🤩" },
+  { t: "HUZURLU",                e: "😌" },
 
-  { t: "AĞLAK",          e: "😭" },
-  { t: "ÇALIŞKAN",       e: "💪" },
-  { t: "DELİ GİBİ",      e: "🤪" },
-  { t: "FARKETMEZ",      e: "🤷" },
-  { t: "HAYALPEREST",    e: "💭" },
-  { t: "İYİ",            e: "🙂" },
-  { t: "ÖZGÜR",          e: "🕊️" },
-  { t: "SEXY",           e: "🔥" },
-  { t: "ŞİRİN",          e: "🐣" },
-  { t: "YALNIZ",         e: "🌚" }
+  { t: "İÇ GÜVEYSİNDEN HALLİCE", e: "😪" },
+  { t: "İNCİNMİŞ",               e: "💔" },
+  { t: "İYİ",                    e: "🙂" },
+  { t: "KARARSIZ",               e: "😕" },
+  { t: "LOSER",                  e: "😞" },
+  { t: "MİNNOŞ",                 e: "🥺" },
+
+  { t: "MUTLU",                  e: "😀" },
+  { t: "ÖZGÜR",                  e: "🕊️" },
+  { t: "PAMUK GİBİ",             e: "🥰" },
+  { t: "PARAGÖZ",                e: "🤑" },
+  { t: "RÜKÜŞ",                  e: "💅" },
+  { t: "SEXY",                   e: "🔥" },
+
+  { t: "SICAKLAMIŞ",             e: "🥵" },
+  { t: "STANDART",               e: "😐" },
+  { t: "STRESLİ",                e: "😰" },
+  { t: "ŞANSLI",                 e: "🍀" },
+  { t: "ŞAPŞİK",                 e: "😜" },
+  { t: "ŞİRİN",                  e: "🐣" },
+
+  { t: "UMUTLU",                 e: "🌈" },
+  { t: "UYKUSUZ",                e: "😴" },
+  { t: "ÜŞÜMÜŞ",                 e: "🥶" },
+  { t: "YALNIZ",                 e: "🌚" },
+  { t: "YIKIK",                  e: "😩" },
+  { t: "YORGUN",                 e: "😮‍💨" }
 ];
 
 /* ================= BrewMood yüzleri =================
@@ -555,7 +565,9 @@ const EYES = {
   tired:  () => [ path('M ' + (EL-9) + ' ' + (EY-2) + ' q 9 8 18 0', 'f-ink', 3.4),
                   path('M ' + (ER-9) + ' ' + (EY-2) + ' q 9 8 18 0', 'f-ink', 3.4),
                   path('M ' + (EL-7) + ' ' + (EY+7) + ' q 7 5 14 0', 'f-ink', 2.2),
-                  path('M ' + (ER-7) + ' ' + (EY+7) + ' q 7 5 14 0', 'f-ink', 2.2) ]
+                  path('M ' + (ER-7) + ' ' + (EY+7) + ' q 7 5 14 0', 'f-ink', 2.2) ],
+  snow:   () => [ path(snowD(EL, EY, 10), 'f-pupil-s', 2.2),
+                  path(snowD(ER, EY, 10), 'f-pupil-s', 2.2) ]
 };
 
 /* ---------------- ağızlar ---------------- */
@@ -657,59 +669,82 @@ function spiralD(cx, cy, s){
   return d;
 }
 
+/* kar tanesi: 6 kollu yıldız + uç dalları */
+function snowD(cx, cy, s){
+  const r = v => Math.round(v * 10) / 10;
+  let d = '';
+  for (let i = 0; i < 3; i++){
+    const a  = i * 60 * Math.PI / 180;
+    const dx = Math.cos(a) * s, dy = Math.sin(a) * s;
+    d += 'M ' + r(cx - dx) + ' ' + r(cy - dy) + ' L ' + r(cx + dx) + ' ' + r(cy + dy) + ' ';
+    // her kolun ucuna iki küçük dal
+    const b1x = r(Math.cos(a + 0.9) * s * 0.4), b1y = r(Math.sin(a + 0.9) * s * 0.4);
+    const b2x = r(Math.cos(a - 0.9) * s * 0.4), b2y = r(Math.sin(a - 0.9) * s * 0.4);
+    const px = r(cx + dx * 0.5), py = r(cy + dy * 0.5);
+    const qx = r(cx - dx * 0.5), qy = r(cy - dy * 0.5);
+    d += 'M ' + px + ' ' + py + ' l ' + b1x + ' ' + b1y + ' M ' + px + ' ' + py + ' l ' + b2x + ' ' + b2y + ' ';
+    d += 'M ' + qx + ' ' + qy + ' l ' + -b1x + ' ' + -b1y + ' M ' + qx + ' ' + qy + ' l ' + -b2x + ' ' + -b2y + ' ';
+  }
+  return d;
+}
+
 /* ---------------- mod → yüz tarifi ---------------- */
 const FACES = {
-  'AŞK':           { b:'raised', e:'heart',   m:'smile',   x:['hearts']  },
-  'ÇAPKIN':        { b:'one',    e:'wink',    m:'smirk',   x:['sparkle'] },
-  'DENGESİZ':      { b:'one',    e:'spiral',  m:'wavy',    x:[]          },
-  'HANGOVER':      { b:'sad',    e:'tired',   m:'wavy',    x:['sweat']   },
-  'HEYECANLI':     { b:'raised', e:'star',    m:'grin',    x:['sparkle'] },
-  'KARARSIZ':      { b:'none',   e:'side',    m:'flat',    x:['question']},
-  'PAMUK GİBİ':    { b:'none',   e:'happy',   m:'cat',     x:['blush']   },
-  'SICAKKANLI':    { b:'raised', e:'happy',   m:'grin',    x:['blush']   },
-  'UMUTLU':        { b:'raised', e:'up',      m:'smile',   x:['sparkle'] },
-  'YIKIK':         { b:'sad',    e:'x',       m:'frown',   x:[]          },
+  'AGRESİF':                { b:'none',   e:'angry',    m:'teeth',   x:[] },
+  'AĞLAK':                  { b:'sad',    e:'closed',   m:'frown',   x:['tears'] },
+  'AŞIK':                   { b:'raised', e:'heart',    m:'smile',   x:['hearts'] },
+  'BİR ŞEY EKSİK':          { b:'one',    e:'side',     m:'flat',    x:['dots'] },
+  'BOK GİBİ':               { b:'sad',    e:'x',        m:'wavy',    x:['cloud'] },
+  'BOMBA GİBİ':             { b:'raised', e:'star',     m:'grin',    x:['flame'] },
 
-  'BİR ŞEY EKSİK': { b:'one',    e:'side',    m:'flat',    x:['dots']    },
-  'ÇEKİCİ':        { b:'one',    e:'wink',    m:'kiss',    x:['heart']   },
-  'DÜŞÜNCELİ':     { b:'none',   e:'side',    m:'smirk',   x:['question']},
-  'HARİKA':        { b:'raised', e:'open',    m:'grin',    x:['thumb']   },
-  'HUZURLU':       { b:'none',   e:'closed',  m:'smile',   x:[]          },
-  'LOSER':         { b:'sad',    e:'sad',     m:'frown',   x:[]          },
-  'PARAGÖZ':       { b:'raised', e:'money',   m:'grin',    x:[]          },
-  'STANDART':      { b:'flat',   e:'dot',     m:'flat',    x:[]          },
-  'UYKUSUZ':       { b:'sad',    e:'wide',    m:'wavy',    x:[]          },
-  'YORGUN':        { b:'sad',    e:'tired',   m:'sigh',    x:['sweat']   },
+  'ÇALIŞKAN':               { b:'angry',  e:'open',     m:'flat',    x:['sweat'] },
+  'ÇAPKIN':                 { b:'one',    e:'wink',     m:'smirk',   x:['sparkle'] },
+  'ÇEKİCİ':                 { b:'one',    e:'wink',     m:'kiss',    x:['heart'] },
+  'ÇILGIN':                 { b:'raised', e:'spiral',   m:'bigopen', x:[] },
+  'DARMADAĞIN':             { b:'one',    e:'spiral',   m:'wavy',    x:['dash'] },
+  'DELİ GİBİ':              { b:'one',    e:'spiral',   m:'tongue',  x:[] },
 
-  'BOK GİBİ':      { b:'sad',    e:'x',       m:'wavy',    x:['cloud']   },
-  'ÇILGIN':        { b:'raised', e:'spiral',  m:'bigopen', x:[]          },
-  'EH İŞTE':       { b:'flat',   e:'half',    m:'flat',    x:[]          },
-  'HASTA':         { b:'sad',    e:'half',    m:'wavy',    x:['thermo']  },
-  'MİNNOŞ':        { b:'sad',    e:'pleading',m:'cat',     x:['blush']   },
-  'RÜKÜŞ':         { b:'one',    e:'lashes',  m:'kiss',    x:['sparkle'] },
-  'STRESLİ':       { b:'angry',  e:'wide',    m:'teeth',   x:['sweat']   },
-  'UYUŞUK':        { b:'sad',    e:'half',    m:'small',   x:['zzz']     },
+  'DENGESİZ':               { b:'one',    e:'spiral',   m:'wavy',    x:[] },
+  'DÜŞÜNCELİ':              { b:'none',   e:'side',     m:'smirk',   x:['question'] },
+  'EH İŞTE':                { b:'flat',   e:'half',     m:'flat',    x:[] },
+  'ENERJİK':                { b:'raised', e:'wide',     m:'grin',    x:['bolt'] },
+  'FARKETMEZ':              { b:'flat',   e:'half',     m:'smirk',   x:['dash'] },
+  'HANGOVER':               { b:'sad',    e:'tired',    m:'wavy',    x:['sweat'] },
 
-  'AGRESİF':       { b:'none',   e:'angry',   m:'teeth',   x:[]          },
-  'BOMBA GİBİ':    { b:'raised', e:'star',    m:'grin',    x:['flame']   },
-  'DARMADAĞIN':    { b:'one',    e:'spiral',  m:'wavy',    x:['dash']    },
-  'ENERJİK':       { b:'raised', e:'wide',    m:'grin',    x:['bolt']    },
-  'HAVALI':        { b:'none',   e:'dot',     m:'smirk',   x:['shades']  },
-  'İNCİNMİŞ':      { b:'sad',    e:'sad',     m:'frown',   x:['broken']  },
-  'MUTLU':         { b:'none',   e:'happy',   m:'grin',    x:[]          },
-  'ŞANSLI':        { b:'raised', e:'happy',   m:'smile',   x:['clover']  },
-  'ŞAPŞİK':        { b:'one',    e:'wink',    m:'tongue',  x:[]          },
+  'HARİKA':                 { b:'raised', e:'open',     m:'grin',    x:['thumb'] },
+  'HASTA':                  { b:'sad',    e:'half',     m:'wavy',    x:['thermo'] },
+  'HAVALI':                 { b:'none',   e:'dot',      m:'smirk',   x:['shades'] },
+  'HAYALPEREST':            { b:'raised', e:'up',       m:'smile',   x:['cloud'] },
+  'HEYECANLI':              { b:'raised', e:'star',     m:'grin',    x:['sparkle'] },
+  'HUZURLU':                { b:'none',   e:'closed',   m:'smile',   x:[] },
 
-  'AĞLAK':         { b:'sad',    e:'closed',  m:'frown',   x:['tears']   },
-  'ÇALIŞKAN':      { b:'angry',  e:'open',    m:'flat',    x:['sweat']   },
-  'DELİ GİBİ':     { b:'one',    e:'spiral',  m:'tongue',  x:[]          },
-  'FARKETMEZ':     { b:'flat',   e:'half',    m:'smirk',   x:['dash']    },
-  'HAYALPEREST':   { b:'raised', e:'up',      m:'smile',   x:['cloud']   },
-  'İYİ':           { b:'none',   e:'dot',     m:'smile',   x:[]          },
-  'ÖZGÜR':         { b:'raised', e:'closed',  m:'grin',    x:['wings']   },
-  'SEXY':          { b:'one',    e:'lashes',  m:'kiss',    x:['flame']   },
-  'ŞİRİN':         { b:'none',   e:'happy',   m:'cat',     x:['blush']   },
-  'YALNIZ':        { b:'sad',    e:'sad',     m:'flat',    x:['cloud']   }
+  'İÇ GÜVEYSİNDEN HALLİCE': { b:'flat',   e:'tired',    m:'small',   x:[] },
+  'İNCİNMİŞ':               { b:'sad',    e:'sad',      m:'frown',   x:['broken'] },
+  'İYİ':                    { b:'none',   e:'dot',      m:'smile',   x:[] },
+  'KARARSIZ':               { b:'none',   e:'side',     m:'flat',    x:['question'] },
+  'LOSER':                  { b:'sad',    e:'sad',      m:'frown',   x:[] },
+  'MİNNOŞ':                 { b:'sad',    e:'pleading', m:'cat',     x:['blush'] },
+
+  'MUTLU':                  { b:'none',   e:'happy',    m:'grin',    x:[] },
+  'ÖZGÜR':                  { b:'raised', e:'closed',   m:'grin',    x:['wings'] },
+  'PAMUK GİBİ':             { b:'none',   e:'happy',    m:'cat',     x:['blush'] },
+  'PARAGÖZ':                { b:'raised', e:'money',    m:'grin',    x:[] },
+  'RÜKÜŞ':                  { b:'one',    e:'lashes',   m:'kiss',    x:['sparkle'] },
+  'SEXY':                   { b:'one',    e:'lashes',   m:'kiss',    x:['flame'] },
+
+  'SICAKLAMIŞ':             { b:'sad',    e:'tired',    m:'bigopen', x:['sweat'] },
+  'STANDART':               { b:'flat',   e:'dot',      m:'flat',    x:[] },
+  'STRESLİ':                { b:'angry',  e:'wide',     m:'teeth',   x:['sweat'] },
+  'ŞANSLI':                 { b:'raised', e:'happy',    m:'smile',   x:['clover'] },
+  'ŞAPŞİK':                 { b:'one',    e:'wink',     m:'tongue',  x:[] },
+  'ŞİRİN':                  { b:'none',   e:'happy',    m:'cat',     x:['sparkle'] },
+
+  'UMUTLU':                 { b:'raised', e:'up',       m:'smile',   x:['sparkle'] },
+  'UYKUSUZ':                { b:'sad',    e:'tired',    m:'flat',    x:['zzz'] },
+  'ÜŞÜMÜŞ':                 { b:'none',   e:'snow',     m:'wavy',    x:[] },
+  'YALNIZ':                 { b:'sad',    e:'sad',      m:'flat',    x:['cloud'] },
+  'YIKIK':                  { b:'sad',    e:'x',        m:'frown',   x:[] },
+  'YORGUN':                 { b:'sad',    e:'tired',    m:'sigh',    x:['sweat'] }
 };
 
 /* ---------------- kurucu ---------------- */
@@ -866,6 +901,17 @@ const pt = (r, deg) => {
   return [r * Math.cos(a), r * Math.sin(a)];
 };
 
+/* Uzun mod adları rozet bandına taşmasın: ölçüp gerekirse yazıyı daraltır.
+   getComputedTextLength her yerde çalışmayabilir (henüz çizilmemiş SVG),
+   o durumda karakter sayısından tahmin edilir. */
+const LBL_W = R_BAND - R_LBL - 8;
+function labelSigdir(t, fs){
+  let w = 0;
+  try { w = t.getComputedTextLength(); } catch(_){}
+  if (!w) w = t.textContent.length * (fs * 0.58 + 0.55);
+  if (w > LBL_W) t.setAttribute('font-size', (fs * LBL_W / w).toFixed(2));
+}
+
 function buildWheel(){
   rotor.textContent = '';
   const n = moods.length, seg = 360 / n;
@@ -899,6 +945,7 @@ function buildWheel(){
     });
     t.textContent = moods[i].t;
     rotor.appendChild(t);
+    labelSigdir(t, fs);
 
     // rozet: çizilmiş yüz varsa onu, yoksa emoji karakterini kullan
     const [cx, cy] = pt(R_CHIP, A);
@@ -1202,162 +1249,6 @@ moods = loadMoods();
 $('btn-sound').textContent = soundOn ? '🔊' : '🔇';
 buildWheel();
 resetIdle();
-
-})();
-
-/* ==================================================================
-   TELİF İMZASI  —  tek dosya, tek satırla kaldırılır
-
-   KALDIRMAK İÇİN:
-     1) index.html içindeki  <script src="signature.js"><\/script>  satırını silin
-     2) bu dosyayı silin
-   Başka hiçbir yere dokunmanıza gerek yok — bu dosya kendi stilini,
-   kendi DOM'unu ve kendi olaylarını kendisi kuruyor.
-
-   NE YAPAR:
-     1) Ekranın sol alt köşesine çok soluk, küçük bir imza koyar.
-     2) O imzaya 2 saniye basılı tutunca (ya da klavyeden "imza" yazınca)
-        tam künyeyi gösteren bir panel açılır — fotoğrafı çekilebilir.
-     3) Sayfa kaynağına <meta> etiketleri ve bir HTML yorumu ekler.
-     4) Tarayıcı konsoluna künyeyi basar (F12 ile görünür).
-
-   NİYE BİRDEN FAZLA YERDE: biri silinse bile diğerleri kalsın diye.
-   Asıl kanıt değeri BUILD kimliğinde: bağımsız yazılmış bir uygulamada
-   bu dizginin bulunmasının hiçbir sebebi yoktur.
-================================================================== */
-(() => {
-'use strict';
-
-/* ---------- BURAYI KENDİNE GÖRE DÜZENLE ---------- */
-const SIGN = {
-  sahip:   'denizstudiox',
-  iletisim:'denizstudiox@gmail.com',
-  eser:    'Choose Your Mood — dokunmatik mod çarkı',
-  yil:     '2026',
-  tarih:   '2026-09-06',
-  kimlik:  '0576-45B3-CA3E-EC82',
-  damga:   'abdaf7bb359edd991460bfe9bb00ada7'
-};
-/* ------------------------------------------------- */
-
-const satir = SIGN.eser + ' © ' + SIGN.yil + ' ' + SIGN.sahip +
-              ' · ' + SIGN.kimlik;
-
-/* 1) sayfa kaynağındaki izler ------------------------------------ */
-function meta(name, content){
-  const m = document.createElement('meta');
-  m.setAttribute('name', name);
-  m.setAttribute('content', content);
-  document.head.appendChild(m);
-}
-meta('author', SIGN.sahip);
-meta('copyright', '© ' + SIGN.yil + ' ' + SIGN.sahip + ' · ' + SIGN.iletisim);
-meta('build-id', SIGN.kimlik);
-meta('build-date', SIGN.tarih);
-document.documentElement.setAttribute('data-build', SIGN.kimlik);
-document.head.appendChild(document.createComment(' ' + satir + ' · ' + SIGN.iletisim + ' '));
-
-/* 2) konsol künyesi ---------------------------------------------- */
-try {
-  console.log('%c' + SIGN.eser,
-    'color:#7ee8f7;font-size:14px;font-weight:700');
-  console.log('© ' + SIGN.yil + ' ' + SIGN.sahip + '  ·  ' + SIGN.iletisim +
-              '\nYapım kimliği: ' + SIGN.kimlik +
-              '\nDamga: ' + SIGN.damga +
-              '\nTarih: ' + SIGN.tarih);
-} catch (_) {}
-
-/* 3) stiller (bu dosyaya ait, ayrı CSS'e dokunmuyor) -------------- */
-const css = document.createElement('style');
-css.textContent = [
-  /* köşedeki soluk imza — uzaktan fark edilmez, yakından okunur */
-  '#sig-mark{position:fixed;left:7px;bottom:6px;z-index:30;',
-  '  font:400 8px/1 "Segoe UI",Arial,sans-serif;letter-spacing:.4px;',
-  '  color:#7ee8f7;opacity:.13;user-select:none;cursor:default;',
-  '  padding:6px 8px;margin:-6px -8px;-webkit-tap-highlight-color:transparent;',
-  '  transition:opacity .25s ease;}',
-  '#sig-mark:hover{opacity:.42;}',
-
-  /* künye paneli */
-  '#sig-panel{position:fixed;inset:0;z-index:60;display:none;',
-  '  align-items:center;justify-content:center;background:rgba(2,10,18,.9);}',
-  '#sig-panel.open{display:flex;}',
-  '#sig-card{background:#07202f;color:#eaf7ff;border:2px solid #7ee8f7;',
-  '  border-radius:14px;padding:26px 30px;max-width:min(560px,90vw);',
-  '  box-shadow:0 0 40px rgba(126,232,247,.35);',
-  '  font:14px/1.75 "Segoe UI",Arial,sans-serif;}',
-  '#sig-card h3{margin:0 0 14px;font-size:17px;color:#7ee8f7;letter-spacing:.5px;}',
-  '#sig-card dl{margin:0;display:grid;grid-template-columns:auto 1fr;',
-  '  gap:6px 16px;align-items:baseline;}',
-  '#sig-card dt{opacity:.6;font-size:12px;text-transform:uppercase;',
-  '  letter-spacing:1px;white-space:nowrap;}',
-  '#sig-card dd{margin:0;font-weight:600;word-break:break-all;}',
-  '#sig-card .mono{font-family:Consolas,"Courier New",monospace;',
-  '  font-size:13px;color:#c9ec4e;}',
-  '#sig-card button{margin-top:20px;background:#c9ec4e;color:#12200a;',
-  '  border:0;border-radius:9px;padding:10px 20px;font-size:14px;',
-  '  font-weight:700;cursor:pointer;}',
-  '#sig-card p{margin:14px 0 0;font-size:12px;opacity:.55;line-height:1.6;}'
-].join('');
-document.head.appendChild(css);
-
-/* 4) köşedeki imza ------------------------------------------------ */
-const mark = document.createElement('div');
-mark.id = 'sig-mark';
-mark.textContent = '© ' + SIGN.yil + ' ' + SIGN.sahip;
-mark.title = satir;
-document.body.appendChild(mark);
-
-/* 5) künye paneli ------------------------------------------------- */
-const panel = document.createElement('div');
-panel.id = 'sig-panel';
-const alan = (k, v, mono) =>
-  '<dt>' + k + '</dt><dd' + (mono ? ' class="mono"' : '') + '>' + v + '</dd>';
-panel.innerHTML =
-  '<div id="sig-card" role="dialog" aria-label="Telif künyesi">' +
-    '<h3>Telif Künyesi</h3>' +
-    '<dl>' +
-      alan('Eser',    SIGN.eser) +
-      alan('Sahip',   SIGN.sahip) +
-      alan('İletişim',SIGN.iletisim) +
-      alan('Telif',   '© ' + SIGN.yil + ' ' + SIGN.sahip) +
-      alan('Tarih',   SIGN.tarih) +
-      alan('Yapım kimliği', SIGN.kimlik, true) +
-      alan('Damga',   SIGN.damga, true) +
-    '</dl>' +
-    '<p>Bu künye uygulamanın kaynağına gömülüdür; sayfa kaynağındaki ' +
-    '<code>meta</code> etiketlerinde ve tarayıcı konsolunda da görünür.</p>' +
-    '<button type="button" id="sig-close">Kapat</button>' +
-  '</div>';
-document.body.appendChild(panel);
-
-const ac    = () => panel.classList.add('open');
-const kapat = () => panel.classList.remove('open');
-panel.addEventListener('click', e => { if (e.target === panel) kapat(); });
-document.getElementById('sig-close').addEventListener('click', kapat);
-
-/* 6) açma yolları -------------------------------------------------- */
-// a) imzaya 2 saniye basılı tut (dokunmatikte de çalışır)
-let bekle = null;
-const basla = e => { e.preventDefault(); bekle = setTimeout(ac, 2000); };
-const birak = () => { clearTimeout(bekle); bekle = null; };
-mark.addEventListener('pointerdown', basla);
-['pointerup','pointerleave','pointercancel'].forEach(t =>
-  mark.addEventListener(t, birak));
-
-// b) klavyeden "imza" yaz
-let tampon = '';
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') return kapat();
-  if (e.key.length !== 1) return;
-  const t = e.target && e.target.tagName;      // ayar panelinde yazarken tetiklenmesin
-  if (t === 'INPUT' || t === 'TEXTAREA') return;
-  tampon = (tampon + e.key.toLowerCase()).slice(-8);
-  if (tampon.indexOf('imza') !== -1){ tampon = ''; ac(); }
-});
-
-// c) konsoldan çağırmak için
-window.TELIF = Object.freeze(Object.assign({ goster: ac }, SIGN));
 
 })();
 

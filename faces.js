@@ -94,7 +94,9 @@ const EYES = {
   tired:  () => [ path('M ' + (EL-9) + ' ' + (EY-2) + ' q 9 8 18 0', 'f-ink', 3.4),
                   path('M ' + (ER-9) + ' ' + (EY-2) + ' q 9 8 18 0', 'f-ink', 3.4),
                   path('M ' + (EL-7) + ' ' + (EY+7) + ' q 7 5 14 0', 'f-ink', 2.2),
-                  path('M ' + (ER-7) + ' ' + (EY+7) + ' q 7 5 14 0', 'f-ink', 2.2) ]
+                  path('M ' + (ER-7) + ' ' + (EY+7) + ' q 7 5 14 0', 'f-ink', 2.2) ],
+  snow:   () => [ path(snowD(EL, EY, 10), 'f-pupil-s', 2.2),
+                  path(snowD(ER, EY, 10), 'f-pupil-s', 2.2) ]
 };
 
 /* ---------------- ağızlar ---------------- */
@@ -196,59 +198,82 @@ function spiralD(cx, cy, s){
   return d;
 }
 
+/* kar tanesi: 6 kollu yıldız + uç dalları */
+function snowD(cx, cy, s){
+  const r = v => Math.round(v * 10) / 10;
+  let d = '';
+  for (let i = 0; i < 3; i++){
+    const a  = i * 60 * Math.PI / 180;
+    const dx = Math.cos(a) * s, dy = Math.sin(a) * s;
+    d += 'M ' + r(cx - dx) + ' ' + r(cy - dy) + ' L ' + r(cx + dx) + ' ' + r(cy + dy) + ' ';
+    // her kolun ucuna iki küçük dal
+    const b1x = r(Math.cos(a + 0.9) * s * 0.4), b1y = r(Math.sin(a + 0.9) * s * 0.4);
+    const b2x = r(Math.cos(a - 0.9) * s * 0.4), b2y = r(Math.sin(a - 0.9) * s * 0.4);
+    const px = r(cx + dx * 0.5), py = r(cy + dy * 0.5);
+    const qx = r(cx - dx * 0.5), qy = r(cy - dy * 0.5);
+    d += 'M ' + px + ' ' + py + ' l ' + b1x + ' ' + b1y + ' M ' + px + ' ' + py + ' l ' + b2x + ' ' + b2y + ' ';
+    d += 'M ' + qx + ' ' + qy + ' l ' + -b1x + ' ' + -b1y + ' M ' + qx + ' ' + qy + ' l ' + -b2x + ' ' + -b2y + ' ';
+  }
+  return d;
+}
+
 /* ---------------- mod → yüz tarifi ---------------- */
 const FACES = {
-  'AŞK':           { b:'raised', e:'heart',   m:'smile',   x:['hearts']  },
-  'ÇAPKIN':        { b:'one',    e:'wink',    m:'smirk',   x:['sparkle'] },
-  'DENGESİZ':      { b:'one',    e:'spiral',  m:'wavy',    x:[]          },
-  'HANGOVER':      { b:'sad',    e:'tired',   m:'wavy',    x:['sweat']   },
-  'HEYECANLI':     { b:'raised', e:'star',    m:'grin',    x:['sparkle'] },
-  'KARARSIZ':      { b:'none',   e:'side',    m:'flat',    x:['question']},
-  'PAMUK GİBİ':    { b:'none',   e:'happy',   m:'cat',     x:['blush']   },
-  'SICAKKANLI':    { b:'raised', e:'happy',   m:'grin',    x:['blush']   },
-  'UMUTLU':        { b:'raised', e:'up',      m:'smile',   x:['sparkle'] },
-  'YIKIK':         { b:'sad',    e:'x',       m:'frown',   x:[]          },
+  'AGRESİF':                { b:'none',   e:'angry',    m:'teeth',   x:[] },
+  'AĞLAK':                  { b:'sad',    e:'closed',   m:'frown',   x:['tears'] },
+  'AŞIK':                   { b:'raised', e:'heart',    m:'smile',   x:['hearts'] },
+  'BİR ŞEY EKSİK':          { b:'one',    e:'side',     m:'flat',    x:['dots'] },
+  'BOK GİBİ':               { b:'sad',    e:'x',        m:'wavy',    x:['cloud'] },
+  'BOMBA GİBİ':             { b:'raised', e:'star',     m:'grin',    x:['flame'] },
 
-  'BİR ŞEY EKSİK': { b:'one',    e:'side',    m:'flat',    x:['dots']    },
-  'ÇEKİCİ':        { b:'one',    e:'wink',    m:'kiss',    x:['heart']   },
-  'DÜŞÜNCELİ':     { b:'none',   e:'side',    m:'smirk',   x:['question']},
-  'HARİKA':        { b:'raised', e:'open',    m:'grin',    x:['thumb']   },
-  'HUZURLU':       { b:'none',   e:'closed',  m:'smile',   x:[]          },
-  'LOSER':         { b:'sad',    e:'sad',     m:'frown',   x:[]          },
-  'PARAGÖZ':       { b:'raised', e:'money',   m:'grin',    x:[]          },
-  'STANDART':      { b:'flat',   e:'dot',     m:'flat',    x:[]          },
-  'UYKUSUZ':       { b:'sad',    e:'wide',    m:'wavy',    x:[]          },
-  'YORGUN':        { b:'sad',    e:'tired',   m:'sigh',    x:['sweat']   },
+  'ÇALIŞKAN':               { b:'angry',  e:'open',     m:'flat',    x:['sweat'] },
+  'ÇAPKIN':                 { b:'one',    e:'wink',     m:'smirk',   x:['sparkle'] },
+  'ÇEKİCİ':                 { b:'one',    e:'wink',     m:'kiss',    x:['heart'] },
+  'ÇILGIN':                 { b:'raised', e:'spiral',   m:'bigopen', x:[] },
+  'DARMADAĞIN':             { b:'one',    e:'spiral',   m:'wavy',    x:['dash'] },
+  'DELİ GİBİ':              { b:'one',    e:'spiral',   m:'tongue',  x:[] },
 
-  'BOK GİBİ':      { b:'sad',    e:'x',       m:'wavy',    x:['cloud']   },
-  'ÇILGIN':        { b:'raised', e:'spiral',  m:'bigopen', x:[]          },
-  'EH İŞTE':       { b:'flat',   e:'half',    m:'flat',    x:[]          },
-  'HASTA':         { b:'sad',    e:'half',    m:'wavy',    x:['thermo']  },
-  'MİNNOŞ':        { b:'sad',    e:'pleading',m:'cat',     x:['blush']   },
-  'RÜKÜŞ':         { b:'one',    e:'lashes',  m:'kiss',    x:['sparkle'] },
-  'STRESLİ':       { b:'angry',  e:'wide',    m:'teeth',   x:['sweat']   },
-  'UYUŞUK':        { b:'sad',    e:'half',    m:'small',   x:['zzz']     },
+  'DENGESİZ':               { b:'one',    e:'spiral',   m:'wavy',    x:[] },
+  'DÜŞÜNCELİ':              { b:'none',   e:'side',     m:'smirk',   x:['question'] },
+  'EH İŞTE':                { b:'flat',   e:'half',     m:'flat',    x:[] },
+  'ENERJİK':                { b:'raised', e:'wide',     m:'grin',    x:['bolt'] },
+  'FARKETMEZ':              { b:'flat',   e:'half',     m:'smirk',   x:['dash'] },
+  'HANGOVER':               { b:'sad',    e:'tired',    m:'wavy',    x:['sweat'] },
 
-  'AGRESİF':       { b:'none',   e:'angry',   m:'teeth',   x:[]          },
-  'BOMBA GİBİ':    { b:'raised', e:'star',    m:'grin',    x:['flame']   },
-  'DARMADAĞIN':    { b:'one',    e:'spiral',  m:'wavy',    x:['dash']    },
-  'ENERJİK':       { b:'raised', e:'wide',    m:'grin',    x:['bolt']    },
-  'HAVALI':        { b:'none',   e:'dot',     m:'smirk',   x:['shades']  },
-  'İNCİNMİŞ':      { b:'sad',    e:'sad',     m:'frown',   x:['broken']  },
-  'MUTLU':         { b:'none',   e:'happy',   m:'grin',    x:[]          },
-  'ŞANSLI':        { b:'raised', e:'happy',   m:'smile',   x:['clover']  },
-  'ŞAPŞİK':        { b:'one',    e:'wink',    m:'tongue',  x:[]          },
+  'HARİKA':                 { b:'raised', e:'open',     m:'grin',    x:['thumb'] },
+  'HASTA':                  { b:'sad',    e:'half',     m:'wavy',    x:['thermo'] },
+  'HAVALI':                 { b:'none',   e:'dot',      m:'smirk',   x:['shades'] },
+  'HAYALPEREST':            { b:'raised', e:'up',       m:'smile',   x:['cloud'] },
+  'HEYECANLI':              { b:'raised', e:'star',     m:'grin',    x:['sparkle'] },
+  'HUZURLU':                { b:'none',   e:'closed',   m:'smile',   x:[] },
 
-  'AĞLAK':         { b:'sad',    e:'closed',  m:'frown',   x:['tears']   },
-  'ÇALIŞKAN':      { b:'angry',  e:'open',    m:'flat',    x:['sweat']   },
-  'DELİ GİBİ':     { b:'one',    e:'spiral',  m:'tongue',  x:[]          },
-  'FARKETMEZ':     { b:'flat',   e:'half',    m:'smirk',   x:['dash']    },
-  'HAYALPEREST':   { b:'raised', e:'up',      m:'smile',   x:['cloud']   },
-  'İYİ':           { b:'none',   e:'dot',     m:'smile',   x:[]          },
-  'ÖZGÜR':         { b:'raised', e:'closed',  m:'grin',    x:['wings']   },
-  'SEXY':          { b:'one',    e:'lashes',  m:'kiss',    x:['flame']   },
-  'ŞİRİN':         { b:'none',   e:'happy',   m:'cat',     x:['blush']   },
-  'YALNIZ':        { b:'sad',    e:'sad',     m:'flat',    x:['cloud']   }
+  'İÇ GÜVEYSİNDEN HALLİCE': { b:'flat',   e:'tired',    m:'small',   x:[] },
+  'İNCİNMİŞ':               { b:'sad',    e:'sad',      m:'frown',   x:['broken'] },
+  'İYİ':                    { b:'none',   e:'dot',      m:'smile',   x:[] },
+  'KARARSIZ':               { b:'none',   e:'side',     m:'flat',    x:['question'] },
+  'LOSER':                  { b:'sad',    e:'sad',      m:'frown',   x:[] },
+  'MİNNOŞ':                 { b:'sad',    e:'pleading', m:'cat',     x:['blush'] },
+
+  'MUTLU':                  { b:'none',   e:'happy',    m:'grin',    x:[] },
+  'ÖZGÜR':                  { b:'raised', e:'closed',   m:'grin',    x:['wings'] },
+  'PAMUK GİBİ':             { b:'none',   e:'happy',    m:'cat',     x:['blush'] },
+  'PARAGÖZ':                { b:'raised', e:'money',    m:'grin',    x:[] },
+  'RÜKÜŞ':                  { b:'one',    e:'lashes',   m:'kiss',    x:['sparkle'] },
+  'SEXY':                   { b:'one',    e:'lashes',   m:'kiss',    x:['flame'] },
+
+  'SICAKLAMIŞ':             { b:'sad',    e:'tired',    m:'bigopen', x:['sweat'] },
+  'STANDART':               { b:'flat',   e:'dot',      m:'flat',    x:[] },
+  'STRESLİ':                { b:'angry',  e:'wide',     m:'teeth',   x:['sweat'] },
+  'ŞANSLI':                 { b:'raised', e:'happy',    m:'smile',   x:['clover'] },
+  'ŞAPŞİK':                 { b:'one',    e:'wink',     m:'tongue',  x:[] },
+  'ŞİRİN':                  { b:'none',   e:'happy',    m:'cat',     x:['sparkle'] },
+
+  'UMUTLU':                 { b:'raised', e:'up',       m:'smile',   x:['sparkle'] },
+  'UYKUSUZ':                { b:'sad',    e:'tired',    m:'flat',    x:['zzz'] },
+  'ÜŞÜMÜŞ':                 { b:'none',   e:'snow',     m:'wavy',    x:[] },
+  'YALNIZ':                 { b:'sad',    e:'sad',      m:'flat',    x:['cloud'] },
+  'YIKIK':                  { b:'sad',    e:'x',        m:'frown',   x:[] },
+  'YORGUN':                 { b:'sad',    e:'tired',    m:'sigh',    x:['sweat'] }
 };
 
 /* ---------------- kurucu ---------------- */

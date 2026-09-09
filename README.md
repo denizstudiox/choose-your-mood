@@ -3,18 +3,31 @@
 Kafedeki dokunmatik ekran için mod çarkı. **ÇEVİR**'e basılır, çark yavaşlayarak durur,
 ibrenin gösterdiği mod büyük bir kartla ekranda belirir.
 
-Kurulum gerekmez: harici kütüphane, build adımı veya internet bağlantısı yok.
+Kurulum gerekmez: harici kütüphane, build adımı, sunucu ya da internet
+bağlantısı yok. Aynı dosyalar hem web adresinden hem de cihazın kendisinden
+(çevrimdışı) çalışır.
 
 **Canlı deneme:** <https://denizstudiox.github.io/choose-your-mood/>
 
 ## Çalıştırma
 
+### İnternetten
+
+Yukarıdaki adresi açmanız yeterli. Sayfa bir kez açıldıktan sonra da
+internet gerekmez; ayarlar cihazın tarayıcısında saklanır.
+
+### Cihazın kendisinden (çevrimdışı)
+
+Dosyaları indirin — GitHub'da yeşil **Code** düğmesi → **Download ZIP** —
+ve klasörü açın. Sonrasında:
+
 - **Kiosk (önerilen):** `start.bat` — Chrome'u tam ekran kiosk modunda açar. Çıkış: `Alt+F4`.
-- **Hızlı bakış:** `index.html` dosyasına çift tıklayın.
+- **Hızlı bakış:** `index.html` dosyasına çift tıklayın. Sunucu gerekmez;
+  `file://` üzerinden de tam çalışır.
 - **Telefon/tabletten (aynı Wi-Fi):** `serve.bat` — portu açar ve bağlanılacak
   adresi ekrana yazar.
 - **Tek dosya:** `standalone.html` — her şey (CSS, JS, yüzler) içine gömülüdür.
-  Mail'le gönderilebilir, USB'den açılabilir.
+  Tek başına kopyalanabilir: mail'le gönderilebilir, USB'den açılabilir.
 
 ## Kullanım
 
@@ -81,40 +94,6 @@ tablolarında listelidir. **Tarifi olmayan modlar** (örneğin ⚙ panelinden ek
 yeni bir mod) otomatik olarak `moods.js`'teki emoji karakterine düşer — yani hiçbir
 zaman boş görünmez.
 
-## Telif imzası
-
-[`signature.js`](signature.js) uygulamaya sahipliğini kanıtlayan gizli bir künye
-gömer. Ekranda görünen tek şey sol alt köşedeki çok soluk `© 2026 denizstudiox`
-yazısı — normal mesafeden fark edilmez.
-
-**Künyeyi açmak** (anlaşmazlık hâlinde göstermek için):
-
-- O soluk yazıya **2 saniye basılı tutun** (dokunmatikte de çalışır)
-- ya da klavyeden **`imza`** yazın
-- ya da tarayıcı konsoluna `TELIF.goster()` girin
-
-Açılan panel eser adını, sahibini, tarihi ve benzersiz **yapım kimliğini**
-gösterir; fotoğrafı çekilebilir.
-
-İzler dört ayrı yerde durur, biri silinse diğerleri kalır: köşedeki yazı,
-sayfa kaynağındaki `meta` etiketleri (`author`, `copyright`, `build-id`),
-`<html data-build="...">` özniteliği ve tarayıcı konsolu.
-
-Asıl kanıt değeri **yapım kimliğindedir** (`0576-45B3-CA3E-EC82`): bağımsız
-yazılmış bir uygulamada bu dizginin bulunmasının hiçbir sebebi yoktur.
-
-Sahip adını, e-postayı ve tarihi `signature.js`'in en üstündeki `SIGN`
-bloğundan değiştirin.
-
-**Kaldırmak** iki adım: `index.html` içindeki
-`<script src="signature.js"></script>` satırını ve `signature.js` dosyasını
-silin. Dosya kendi stilini ve DOM'unu kendisi kurduğu için başka hiçbir yere
-dokunmak gerekmez. Ardından `python build.py` ile tek dosyalık sürümü yenileyin.
-
-> Not: bu imza **bu yapımın** size ait olduğunu gösterir. Çarkın özgün
-> tasarımı (düzen, "CHOOSE your mood", mod listesi) başkasına aitse imza o
-> tasarım üzerinde hak doğurmaz.
-
 ## Dosyalar
 
 | Dosya | İçerik |
@@ -124,10 +103,11 @@ dokunmak gerekmez. Ardından `python build.py` ile tek dosyalık sürümü yenil
 | `app.js` | Çarkın çizimi, çevirme fiziği, ses, ayarlar |
 | `moods.js` | **Mod listesi — düzenlemek isteyeceğiniz dosya** |
 | `faces.js` | Çizilmiş yüzler (parça kütüphanesi + mod→yüz tablosu) |
-| `signature.js` | **Telif künyesi — tek satırla kaldırılır** |
 | `build.py` | `standalone.html`'i üretir (`python build.py`) |
 | `standalone.html` | Üretilmiş tek dosyalık sürüm — elle düzenlemeyin |
 | `start.bat` | Chrome'u kiosk modunda açar |
+| `serve.bat` | Aynı Wi-Fi'daki telefon/tabletler için yerel sunucu |
+| `LICENSE` | **Kullanım koşulları — izinsiz kullanılamaz** |
 
 ## Notlar
 
@@ -137,6 +117,17 @@ dokunmak gerekmez. Ardından `python build.py` ile tek dosyalık sürümü yenil
   ibrenin altındaki dilimde durur (matematiği 200.000 rastgele denemede doğrulandı).
 - Yatay ekran için tasarlandı; dikey/dar ekranda çark üstte, buton altta olacak
   şekilde yerleşim kendini değiştirir.
-- Çark dönerken neon parlama filtresi geçici olarak kapatılır: 47 yüz çizimle birlikte
+- Çark dönerken neon parlama filtresi geçici olarak kapatılır: 48 yüz çizimle birlikte
   düğüm sayısı arttığı için, zayıf kiosk kutularında her karede filtre hesaplamak
   takılmaya yol açıyordu. Hızlı dönüşte fark edilmez, çark durunca geri gelir.
+
+## Lisans
+
+© 2026 denizstudiox — **tüm hakları saklıdır.**
+
+Depo herkese açıktır, yani kaynak kod görüntülenebilir. Bunun dışında
+hiçbir kullanım serbest değildir: kopyalamak, değiştirmek, dağıtmak ya da
+bir kafede/mağazada/etkinlikte çalıştırmak **yazılı izin gerektirir**.
+
+Koşulların tamamı [`LICENSE`](LICENSE) dosyasındadır.
+İzin için: denizstudiox@gmail.com

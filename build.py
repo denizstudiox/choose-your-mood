@@ -12,7 +12,7 @@ import os
 import re
 
 BURASI = os.path.dirname(os.path.abspath(__file__))
-JS_SIRASI = ("moods.js", "faces.js", "app.js", "signature.js")
+JS_SIRASI = ("moods.js", "faces.js", "app.js")
 
 
 def oku(ad):

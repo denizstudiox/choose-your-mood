@@ -95,6 +95,17 @@ const pt = (r, deg) => {
   return [r * Math.cos(a), r * Math.sin(a)];
 };
 
+/* Uzun mod adları rozet bandına taşmasın: ölçüp gerekirse yazıyı daraltır.
+   getComputedTextLength her yerde çalışmayabilir (henüz çizilmemiş SVG),
+   o durumda karakter sayısından tahmin edilir. */
+const LBL_W = R_BAND - R_LBL - 8;
+function labelSigdir(t, fs){
+  let w = 0;
+  try { w = t.getComputedTextLength(); } catch(_){}
+  if (!w) w = t.textContent.length * (fs * 0.58 + 0.55);
+  if (w > LBL_W) t.setAttribute('font-size', (fs * LBL_W / w).toFixed(2));
+}
+
 function buildWheel(){
   rotor.textContent = '';
   const n = moods.length, seg = 360 / n;
@@ -128,6 +139,7 @@ function buildWheel(){
     });
     t.textContent = moods[i].t;
     rotor.appendChild(t);
+    labelSigdir(t, fs);
 
     // rozet: çizilmiş yüz varsa onu, yoksa emoji karakterini kullan
     const [cx, cy] = pt(R_CHIP, A);

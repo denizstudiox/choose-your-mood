@@ -194,6 +194,7 @@ body.result-on #result{opacity:1;transform:translate(-50%,-50%) scale(1);}
 .face .f-white     {fill:var(--f-disc);stroke:none;}
 .face .f-white-line{fill:none;stroke:var(--f-disc);stroke-linecap:round;}
 .face .f-pupil     {fill:var(--f-pupil);stroke:none;}
+.face .f-pupil-s   {fill:none;stroke:var(--f-pupil);stroke-linecap:round;stroke-linejoin:round;}
 .face .f-acc       {fill:none;stroke:var(--f-acc);stroke-linecap:round;}
 .face .f-acc-f     {fill:var(--f-acc);stroke:none;}
 .face text         {text-anchor:middle;font-family:"Segoe UI",Arial,sans-serif;font-weight:800;}
