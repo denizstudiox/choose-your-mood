@@ -276,14 +276,39 @@ const FACES = {
   'YORGUN':                 { b:'sad',    e:'tired',    m:'sigh',    x:['sweat'] }
 };
 
-/* ---------------- kurucu ---------------- */
+/* ---------------- mod → bütün yüzün hareketi ----------------
+   Panodaki gibi her mod kendi hareketiyle kıpırdar. Göz, ağız ve
+   aksanlar parça türüne göre ayrıca canlanır (style.css, "yüz
+   hareketleri"). Burada yalnız yüzün genel hareketi seçilir.
+   Kullanılabilir: bob hop shake sob wobble teeter shiver sway
+   breathe float tilt nod sink droop woozy pulse jelly melt still */
+const MOTION = {
+  'AGRESİF':'shake',   'AĞLAK':'sob',        'AŞIK':'sway',        'BİR ŞEY EKSİK':'tilt',
+  'BOK GİBİ':'sink',   'BOMBA GİBİ':'jelly', 'ÇALIŞKAN':'nod',     'ÇAPKIN':'tilt',
+  'ÇEKİCİ':'sway',     'ÇILGIN':'jelly',     'DARMADAĞIN':'wobble','DELİ GİBİ':'wobble',
+  'DENGESİZ':'teeter', 'DÜŞÜNCELİ':'tilt',   'EH İŞTE':'breathe',  'ENERJİK':'hop',
+  'FARKETMEZ':'nod',   'HANGOVER':'woozy',   'HARİKA':'hop',       'HASTA':'sink',
+  'HAVALI':'nod',      'HAYALPEREST':'float','HEYECANLI':'hop',    'HUZURLU':'breathe',
+  'İÇ GÜVEYSİNDEN HALLİCE':'droop',          'İNCİNMİŞ':'sink',    'İYİ':'bob',
+  'KARARSIZ':'teeter', 'LOSER':'sink',       'MİNNOŞ':'sway',      'MUTLU':'bob',
+  'ÖZGÜR':'float',     'PAMUK GİBİ':'breathe','PARAGÖZ':'pulse',   'RÜKÜŞ':'sway',
+  'SEXY':'sway',       'SICAKLAMIŞ':'melt',  'STANDART':'still',   'STRESLİ':'shiver',
+  'ŞANSLI':'bob',      'ŞAPŞİK':'wobble',    'ŞİRİN':'bob',        'UMUTLU':'float',
+  'UYKUSUZ':'droop',   'ÜŞÜMÜŞ':'shiver',    'YALNIZ':'sink',      'YIKIK':'sink',
+  'YORGUN':'droop'
+};
+
+/* ---------------- kurucu ----------------
+   Her katman kendi <g>'sine girer (f-b-*, f-e-*, f-m-*, f-x-*) ki
+   CSS her parçayı ayrı canlandırabilsin. */
 function build(spec){
-  const parts = []
-    .concat((BROWS [spec.b] || BROWS.none  )())
-    .concat((EYES  [spec.e] || EYES.dot    )())
-    .concat((MOUTHS[spec.m] || MOUTHS.smile)());
-  (spec.x || []).forEach(k => { if (EXTRAS[k]) parts.push.apply(parts, EXTRAS[k]()); });
-  return parts;
+  const layers = [
+    ['f-brows f-b-' + spec.b, (BROWS [spec.b] || BROWS.none  )()],
+    ['f-eyes f-e-'  + spec.e, (EYES  [spec.e] || EYES.dot    )()],
+    ['f-mouth f-m-' + spec.m, (MOUTHS[spec.m] || MOUTHS.smile)()]
+  ];
+  (spec.x || []).forEach(k => { if (EXTRAS[k]) layers.push(['f-x f-x-' + k, EXTRAS[k]()]); });
+  return layers;
 }
 
 /**
@@ -294,26 +319,36 @@ function faceGroup(name){
   const spec = FACES[name];
   if (!spec) return null;
 
+  // dış <g> çarktaki yerleşim transform'unu taşır (app.js); hareket
+  // CSS transform'u onu ezmesin diye içteki f-anim grubuna verilir.
   const g = document.createElementNS(NS, 'g');
   g.setAttribute('class', 'face');
+  const body = document.createElementNS(NS, 'g');
+  body.setAttribute('class', 'f-anim fa-' + (MOTION[name] || 'bob'));
+  g.appendChild(body);
 
   // disk + çift halka (referanstaki gibi)
   const disc = document.createElementNS(NS, 'circle');
   disc.setAttribute('cx', CX); disc.setAttribute('cy', CY); disc.setAttribute('r', R);
   disc.setAttribute('class', 'f-disc');
-  g.appendChild(disc);
+  body.appendChild(disc);
 
   const ring = document.createElementNS(NS, 'circle');
   ring.setAttribute('cx', CX); ring.setAttribute('cy', CY); ring.setAttribute('r', R - 4.5);
   ring.setAttribute('class', 'f-ring');
-  g.appendChild(ring);
+  body.appendChild(ring);
 
-  build(spec).forEach(item => {
-    const [tag, at, txt] = item;
-    const e = document.createElementNS(NS, tag);
-    for (const k in at) e.setAttribute(k, at[k]);
-    if (txt != null) e.textContent = txt;
-    g.appendChild(e);
+  build(spec).forEach(([cls, items]) => {
+    if (!items.length) return;
+    const lg = document.createElementNS(NS, 'g');
+    lg.setAttribute('class', cls);
+    items.forEach(([tag, at, txt]) => {
+      const e = document.createElementNS(NS, tag);
+      for (const k in at) e.setAttribute(k, at[k]);
+      if (txt != null) e.textContent = txt;
+      lg.appendChild(e);
+    });
+    body.appendChild(lg);
   });
   return g;
 }
